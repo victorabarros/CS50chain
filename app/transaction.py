@@ -13,7 +13,10 @@ class Transaction:
         self.amount = amount
         self.description = description
 
-    def to_dict(self):
+    def to_dict(self, sender_private_key: str = None):
+        if (sender_private_key):
+            self.do_sign(sender_private_key)
+
         return {
             "created_at": str(self.created_at),
             "sender_pub_key": self.sender_pub_key,
@@ -23,7 +26,8 @@ class Transaction:
             "sign": self.sign,
         }
 
-    def encode(self, sender_private_key: str):
+    def do_sign(self, sender_private_key: str):
+        # TODO validate private key with pub
         # TODO try RSA256 https://pyjwt.readthedocs.io/en/stable/usage.html#encoding-decoding-tokens-with-rs256-rsa
-        return jwt.encode(self.to_dict(),
-                          sender_private_key, algorithm=self.algorithm)
+        self.sign = jwt.encode(self.to_dict(),
+                               sender_private_key, algorithm=self.algorithm)

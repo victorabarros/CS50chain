@@ -1,6 +1,7 @@
 import hashlib
 from datetime import datetime
 
+from node import Node
 from transaction import Transaction
 
 
@@ -16,6 +17,9 @@ class Wallet:
         self._set_initial_balance()
 
     def _set_initial_balance(self):
-        trx = Transaction(self.public_key, self.private_key,
+        trx = Transaction("UNIVERSE", self.public_key,
                           self.initial_balance, "Initial balance")
-        # TODO send to blockchain
+
+        trx.do_sign("universe_private_key")
+
+        Node.submit_transaction(trx)
