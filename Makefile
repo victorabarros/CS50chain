@@ -17,4 +17,7 @@ docker-command: remove-containers
 	@echo "${YELLOW}Initiating container ${APP_NAME}${COLOR_OFF}"
 	@docker run -it -v $(shell pwd):${APP_DIR} -w ${APP_DIR} \
 		--name ${APP_NAME} \
-		${DOCKER_BASE_IMAGE} sh -c "pip3 install -r requirements.txt && ${COMMAND}"
+		${DOCKER_BASE_IMAGE} sh -c "\
+			python3 -m pip install --upgrade pip && \
+			pip3 install -r requirements.txt && \
+			${COMMAND}"
