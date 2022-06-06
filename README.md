@@ -52,9 +52,9 @@ Consensus > ""
 
 ## references
 
-http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/
-https://arxiv.org/abs/1810.06130
-https://bitcoin.org/bitcoin.pdf
-https://github.com/khaosdoctor/typescript-blockchain
-https://mycoralhealth.medium.com/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc
-https://medium.com/@vanflymen/learn-blockchains-by-building-one-117428612f46
+- http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/ https://github.com/adilmoujahid/blockchain-python-tutorial/
+- https://arxiv.org/abs/1810.06130
+- https://bitcoin.org/bitcoin.pdf
+- https://github.com/khaosdoctor/typescript-blockchain
+- https://mycoralhealth.medium.com/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc
+- https://medium.com/@vanflymen/learn-blockchains-by-building-one-117428612f46
