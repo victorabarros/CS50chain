@@ -1,10 +1,11 @@
 import jwt
 from datetime import datetime
 
+from config import ALGORITHM
+
 
 class Transaction:
-    algorithm = "HS256"
-    sign = None
+    _sign = None
 
     def __init__(self, sender_pub_key: str, recipient_pub_key: str, amount: float, description: str = None):
         self.created_at = datetime.utcnow()
@@ -23,11 +24,18 @@ class Transaction:
             "recipient_pub_key": self.recipient_pub_key,
             "amount": self.amount,
             "description": self.description,
-            "sign": self.sign,
+            "sign": self._sign,
         }
 
     def do_sign(self, sender_private_key: str):
-        # TODO validate private key with pub
-        # TODO try RSA256 https://pyjwt.readthedocs.io/en/stable/usage.html#encoding-decoding-tokens-with-rs256-rsa
-        self.sign = jwt.encode(self.to_dict(),
-                               sender_private_key, algorithm=self.algorithm)
+        if self._sign:
+            print("transaction already signed")
+            return
+
+        self._sign = jwt.encode(self.to_dict(),
+                                sender_private_key, algorithm=ALGORITHM)
+        jwt.decode(self._sign, self.sender_pub_key, algorithms=[ALGORITHM])
+
+    @property
+    def sign(self):
+        return self._sign

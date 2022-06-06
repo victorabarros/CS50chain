@@ -1,6 +1,7 @@
-import hashlib
 from datetime import datetime
+from Crypto.PublicKey import RSA
 
+from config import BITS, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
 from node import Node
 from transaction import Transaction
 
@@ -8,18 +9,20 @@ from transaction import Transaction
 class Wallet:
     initial_balance = 1000
 
-    def __init__(self, pub_key: str):
+    def __init__(self):
         self.created_at = datetime.utcnow()
         # TODO improve how create pub and pem key (https://cryptography.io/en/latest/)
-        self.public_key = pub_key
-        self.private_key = hashlib.sha256(
-            f"{self.created_at}{self.public_key}".encode()).hexdigest()
+        rsa = RSA.generate(BITS)
+
+        self.private_key = rsa.export_key().decode()
+        self.public_key = rsa.publickey().export_key().decode()
+
         self._set_initial_balance()
 
     def _set_initial_balance(self):
-        trx = Transaction("UNIVERSE", self.public_key,
+        trx = Transaction(UNIVERSAL_PUBLIC_KEY, self.public_key,
                           self.initial_balance, "Initial balance")
 
-        trx.do_sign("universe_private_key")
+        trx.do_sign(UNIVERSAL_PRIVATE_KEY)
 
         Node.submit_transaction(trx)
