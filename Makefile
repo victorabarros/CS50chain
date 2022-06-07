@@ -17,6 +17,7 @@ docker-debug: remove-containers
 	@echo "${YELLOW}Initiating container ${APP_NAME}${COLOR_OFF}"
 	@docker run -it -v $(shell pwd):${APP_DIR} -w ${APP_DIR} \
 		--name ${APP_NAME} \
+		--env-file .env \
 		${DOCKER_BASE_IMAGE} bash -c "\
 			python3 -m pip install --upgrade pip && \
 			pip3 install -r requirements.txt && \

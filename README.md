@@ -54,8 +54,23 @@ Consensus > ""
   - url
 
 *must not be save on db
+
+## api
+
+- POST /api/wallet {}
+- GET  /api/wallet/:id -> {pub_key, balance, statement}
+- GET  /api/node -> current transactions
+- GET  /api/chain -> [block]
+- POST /api/node/mine
+- POST /api/transaction {Transaction signed}
+
 <!--
 ## next steps
+
+curl localhost:5000/
+curl localhost:5000/api/node
+curl localhost:5000/api/chain
+curl -X POST localhost:5000/api/mine
 
 - api
   - POST /api/wallet {}
@@ -78,6 +93,7 @@ Consensus > ""
 ## improvements
 
 - unit tests
+- swagger
 -->
 
 ## references
