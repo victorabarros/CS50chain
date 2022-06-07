@@ -1,11 +1,11 @@
 import jwt
 import json
 
-from config import ALGORITHM
-from block import CHAIN, Block, validate_nonce
-from transaction import Transaction
-from wallet import Wallet
-from node import node, Node
+from app.config import ALGORITHM
+from app.block import CHAIN, Block, validate_nonce
+from app.transaction import Transaction
+from app.wallet import Wallet
+from app.node import node, Node
 
 if __name__ == "__main__":
     CHAIN.append(Block())

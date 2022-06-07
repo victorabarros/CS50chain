@@ -1,10 +1,10 @@
 from datetime import datetime
 from Crypto.PublicKey import RSA
 
-from config import BITS, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
-from block import CHAIN
-from node import node
-from transaction import Transaction
+from app.config import BITS, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
+from app.block import CHAIN
+from app.node import node
+from app.transaction import Transaction
 
 
 class Wallet:

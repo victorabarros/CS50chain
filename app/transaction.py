@@ -1,7 +1,7 @@
 import jwt
 from datetime import datetime
 
-from config import ALGORITHM
+from app.config import ALGORITHM
 
 
 class Transaction:

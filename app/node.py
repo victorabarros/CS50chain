@@ -1,9 +1,9 @@
 import hashlib
 import jwt
 
-from block import CHAIN, Block
-from config import ALGORITHM
-from transaction import Transaction
+from app.block import CHAIN, Block
+from app.config import ALGORITHM
+from app.transaction import Transaction
 
 
 class Node:

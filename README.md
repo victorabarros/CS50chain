@@ -71,13 +71,13 @@ Consensus > ""
   - block view -> show all blockchain table
   - force mine button
   - submit transaction
-- serveless sqlite3 (try s3)
+- DB - try serveless sqlite3 (try s3)
+- sync transactions and chain with other nodes
 - deploy on heroku or other serveless
 
 ## improvements
 
 - unit tests
-- sync transactions and chain with other nodes
 -->
 
 ## references

@@ -2,7 +2,7 @@ import hashlib
 import json
 from datetime import datetime
 
-from config import NONCE_VALIDATION_DIFFICULTY
+from app.config import NONCE_VALIDATION_DIFFICULTY
 
 
 CHAIN = list()
