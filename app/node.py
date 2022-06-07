@@ -25,35 +25,15 @@ class Node:
         return _TRANSACTIONS.values()
 
     def sync_node(self):
-        if len(CHAIN) == 0:
-            CHAIN.append(Block())
         # TODO sync transactions and chain from other nodes
         # try using grpc https://grpc.io/docs/languages/python/basics/
+        pass
 
     def mine_block(self):
         self.sync_node()
-        new_block = Block(**{
-            'data': {'transactions': list(_TRANSACTIONS.values())},
-            'nonce': run_proof_of_work(CHAIN[-1]),
-        })
+        new_block = Block({'transactions': list(_TRANSACTIONS.values())})
 
         CHAIN.append(new_block)
         _TRANSACTIONS.clear()
 
         return new_block
-
-
-def run_proof_of_work(previous_block_hash):
-    nonce = 0
-
-    while not validate_nonce(previous_block_hash, nonce):
-        nonce += 1
-
-    return nonce
-
-
-def validate_nonce(previous_block_hash, nonce):
-    difficulty = 4
-    guess = (f'{previous_block_hash}{nonce}').encode()
-    guess_hash = hashlib.sha256(guess).hexdigest()
-    return guess_hash.startswith('0' * difficulty)

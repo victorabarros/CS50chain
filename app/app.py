@@ -1,12 +1,13 @@
 import json
 
-from block import CHAIN
+from block import CHAIN, Block
 from transaction import Transaction
 from wallet import Wallet
 from node import Node
 
 
 if __name__ == "__main__":
+    CHAIN.append(Block())
     sender_wallet = Wallet()
     recipient_wallet = Wallet()
 

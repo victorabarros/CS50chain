@@ -8,12 +8,14 @@ CHAIN = list()
 
 class Block:
     _hash = None
+    _nonce = None
 
-    def __init__(self, nonce=None, data={}):
+    def __init__(self, data={}):
         self.id = len(CHAIN)
         self.created_at = datetime.utcnow()
         self._data = data
-        self._nonce = nonce
+        if len(CHAIN) > 0:
+            self._nonce = run_proof_of_work(CHAIN[-1].hash)
 
     def _internal_to_dict(self):
         return {
@@ -42,3 +44,19 @@ class Block:
     @property
     def nonce(self):
         return self._nonce
+
+
+def run_proof_of_work(previous_block_hash):
+    nonce = 0
+
+    while not validate_nonce(previous_block_hash, nonce):
+        nonce += 1
+
+    return nonce
+
+
+def validate_nonce(previous_block_hash, nonce):
+    difficulty = 4  # TODO move to config
+    guess = (f'{previous_block_hash}{nonce}').encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return guess_hash.startswith('0' * difficulty)
