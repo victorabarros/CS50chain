@@ -21,6 +21,7 @@ https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
 Blockchain > _blockchain is a distributed database that allows direct transactions between two parties without the need of a central authority_
 Hash > it's one side only algo. must popular is SHA256
 Public Key Cryptography > authentication, where the public key verifies a holder of the paired. must popular RSA
+JWT
 Consensus > ""
 ## host
 - https://pages.github.com/
@@ -33,7 +34,6 @@ Consensus > ""
   - created_at
   - private_key PK*
   - public_key
-  - email
   - balance*
 - Transaction
   - created_at
@@ -54,6 +54,31 @@ Consensus > ""
   - url
 
 *must not be save on db
+<!--
+## next steps
+
+- api
+  - POST /api/wallet {}
+  -  GET /api/wallet/:id -> {pub_key, balance, statement}
+  -  GET /api/node -> current transactions
+  -  GET /api/chain -> [block]
+  - POST /api/node/mine
+  - POST /api/transaction {Transaction signed}
+- frontend
+  - create wallet
+  - view wallet -> show balance and statement (node transactions in PENDING and chain transactions APPROVEDS)
+  - transactions view -> show current node transactions in pending and chain transactions approveds
+  - block view -> show all blockchain table
+  - force mine button
+  - submit transaction
+- serveless sqlite3 (try s3)
+- deploy on heroku or other serveless
+
+## improvements
+
+- unit tests
+- sync transactions and chain with other nodes
+-->
 
 ## references
 
