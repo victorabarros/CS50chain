@@ -30,25 +30,30 @@ Consensus > ""
 ## entities
 
 - Wallet
-  - private key PK
-  - public key
+  - created_at
+  - private_key PK*
+  - public_key
+  - email
+  - balance*
 - Transaction
+  - created_at
   - sender_wallet_public_key
   - recipe_wallet_public_key
   - description
   - amount
   - sign PK
+- Block
   - created_at
-- Blockchain
-  - chain
   - node_id PK
-  - nodes
-  - data ({ transactions: [Transactions] })
+  - data ({ transactions: List[Transaction], ... })
   - hash PK
   - nonce
-- Node
+- Node*
+  - transactions
   - id PK
   - url
+
+*must not be save on db
 
 ## references
 

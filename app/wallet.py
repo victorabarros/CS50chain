@@ -3,7 +3,7 @@ from Crypto.PublicKey import RSA
 
 from config import BITS, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
 from block import CHAIN
-from node import Node
+from node import node
 from transaction import Transaction
 
 
@@ -25,7 +25,7 @@ class Wallet:
 
         trx.do_sign(UNIVERSAL_PRIVATE_KEY)
 
-        Node.submit_transaction(trx)
+        node.submit_transaction(trx)
 
     @property
     def balance(self):
