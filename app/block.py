@@ -2,6 +2,8 @@ import hashlib
 import json
 from datetime import datetime
 
+from config import NONCE_VALIDATION_DIFFICULTY
+
 
 CHAIN = list()
 
@@ -56,7 +58,6 @@ def run_proof_of_work(previous_block_hash):
 
 
 def validate_nonce(previous_block_hash, nonce):
-    difficulty = 4  # TODO move to config
     guess = (f'{previous_block_hash}{nonce}').encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
-    return guess_hash.startswith('0' * difficulty)
+    return guess_hash.startswith('0' * NONCE_VALIDATION_DIFFICULTY)

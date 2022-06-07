@@ -12,7 +12,6 @@ class Wallet:
 
     def __init__(self):
         self.created_at = datetime.utcnow()
-        # TODO improve how create pub and pem key (https://cryptography.io/en/latest/)
         rsa = RSA.generate(BITS)
 
         self.private_key = rsa.export_key().decode()
