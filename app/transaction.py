@@ -19,7 +19,7 @@ class Transaction:
             self.do_sign(sender_private_key)
 
         return {
-            "created_at": str(self.created_at),
+            "created_at": self.created_at.isoformat(),
             "sender_pub_key": self.sender_pub_key,
             "recipient_pub_key": self.recipient_pub_key,
             "amount": self.amount,

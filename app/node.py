@@ -1,13 +1,11 @@
 import hashlib
 import jwt
-from datetime import datetime
-import json
 
+from block import CHAIN, Block
 from config import ALGORITHM
 from transaction import Transaction
 
 _TRANSACTIONS = dict()
-_CHAIN = list()
 
 
 class Node:
@@ -27,48 +25,35 @@ class Node:
         return _TRANSACTIONS.values()
 
     def sync_node(self):
-        if len(_CHAIN) == 0:
-            _CHAIN.append({
-                'id': len(_CHAIN),
-                'created_at': datetime.utcnow(),
-                'data': None,
-                'nonce': None,
-                'hash': None,
-            })
+        if len(CHAIN) == 0:
+            CHAIN.append(Block())
         # TODO sync transactions and chain from other nodes
         # try using grpc https://grpc.io/docs/languages/python/basics/
 
-    def get_chain(self):
-        return _CHAIN
-
     def mine_block(self):
-        # self.sync_node()
-        new_block = {
-            'id': len(_CHAIN),
-            'created_at': datetime.utcnow(),
+        self.sync_node()
+        new_block = Block(**{
             'data': {'transactions': list(_TRANSACTIONS.values())},
-            'nonce': self.proof_of_work(),
-            'hash': None,
-        }
+            'nonce': run_proof_of_work(CHAIN[-1]),
+        })
 
-        new_block['hash'] = hashlib.sha256(json.dumps(
-            new_block, sort_keys=True, default=str).encode()).hexdigest()
-
-        _CHAIN.append(new_block)
+        CHAIN.append(new_block)
         _TRANSACTIONS.clear()
 
         return new_block
 
-    def proof_of_work(self):
-        difficulty = 4
-        nonce = 0
-        previous_block_hash = _CHAIN[-1]['hash']
 
-        while True:
-            guess = (f'{previous_block_hash}{nonce}').encode()
-            guess_hash = hashlib.sha256(guess).hexdigest()
-            if guess_hash.startswith('0' * difficulty):
-                break
-            nonce += 1
+def run_proof_of_work(previous_block_hash):
+    nonce = 0
 
-        return nonce
+    while not validate_nonce(previous_block_hash, nonce):
+        nonce += 1
+
+    return nonce
+
+
+def validate_nonce(previous_block_hash, nonce):
+    difficulty = 4
+    guess = (f'{previous_block_hash}{nonce}').encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return guess_hash.startswith('0' * difficulty)
