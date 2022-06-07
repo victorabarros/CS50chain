@@ -2,6 +2,7 @@ from datetime import datetime
 from Crypto.PublicKey import RSA
 
 from config import BITS, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
+from block import CHAIN
 from node import Node
 from transaction import Transaction
 
@@ -26,3 +27,17 @@ class Wallet:
         trx.do_sign(UNIVERSAL_PRIVATE_KEY)
 
         Node.submit_transaction(trx)
+
+    @property
+    def balance(self):
+        withdraw = 0
+        deposit = 0
+        for block in CHAIN:
+            transactions = block.data.get("transactions", [])
+            for trx in transactions:
+                if trx.sender_pub_key == self.public_key:
+                    withdraw += trx.amount
+                if trx.recipient_pub_key == self.public_key:
+                    deposit += trx.amount
+
+        return deposit - withdraw
