@@ -1,14 +1,13 @@
 from datetime import datetime
 from Crypto.PublicKey import RSA
 
-from app.config import BITS, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
+from app.config import BITS, INITIAL_BALANCE, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
 from app.block import CHAIN
 from app.node import node
 from app.transaction import Transaction
 
 
 class Wallet:
-    initial_balance = 1000
 
     def __init__(self, public_key, private_key):
         self.created_at = datetime.utcnow()
@@ -19,7 +18,7 @@ class Wallet:
 
     def _set_initial_balance(self):
         trx = Transaction(UNIVERSAL_PUBLIC_KEY, self.public_key,
-                          self.initial_balance, "Initial balance")
+                          INITIAL_BALANCE, "Initial balance")
 
         trx.do_sign(UNIVERSAL_PRIVATE_KEY)
 
