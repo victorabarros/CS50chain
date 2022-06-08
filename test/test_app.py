@@ -48,7 +48,7 @@ class TestApp(unittest.TestCase):
             if not validate_nonce(previous_block_hash, block.nonce):
                 raise Exception("nonce invalid")
             for trx in block.data.get("transactions", []):
-                jwt.decode(trx.sign, trx.sender_pub_key,
+                jwt.decode(trx.sign, trx.sender_public_key,
                            algorithms=[ALGORITHM])
 
         trx2 = Transaction(sender.public_key, recipient.public_key, 17.43)\

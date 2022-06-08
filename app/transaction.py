@@ -10,8 +10,8 @@ class Transaction:
 
     def __init__(self, sender_pub_key: str, recipient_pub_key: str, amount: float, description: str = None):
         self.created_at = datetime.utcnow()
-        self.sender_pub_key = sender_pub_key.replace("\\n", "\n")
-        self.recipient_pub_key = recipient_pub_key.replace("\\n", "\n")
+        self.sender_public_key = sender_pub_key.replace("\\n", "\n")
+        self.recipient_public_key = recipient_pub_key.replace("\\n", "\n")
         self.amount = amount
         self.description = description
 
@@ -21,8 +21,8 @@ class Transaction:
 
         return {
             "created_at": self.created_at.isoformat(),
-            "sender_pub_key": self.sender_pub_key,
-            "recipient_pub_key": self.recipient_pub_key,
+            "sender_public_key": self.sender_public_key,
+            "recipient_public_key": self.recipient_public_key,
             "amount": self.amount,
             "description": self.description,
             "sign": self._sign,
@@ -35,7 +35,7 @@ class Transaction:
 
         self._sign = jwt.encode(self.to_dict(),
                                 sender_private_key, algorithm=ALGORITHM)
-        jwt.decode(self._sign, self.sender_pub_key, algorithms=[ALGORITHM])
+        jwt.decode(self._sign, self.sender_public_key, algorithms=[ALGORITHM])
         return self
 
     @property
@@ -44,6 +44,6 @@ class Transaction:
 
     @sign.setter
     def sign(self, value):
-        jwt.decode(value, self.sender_pub_key, algorithms=[ALGORITHM])
+        jwt.decode(value, self.sender_public_key, algorithms=[ALGORITHM])
         # TODO validate decoded with self properties
         self._sign = value

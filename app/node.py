@@ -13,7 +13,7 @@ class Node:
         pass
 
     def submit_transaction(self, transaction: Transaction):
-        jwt.decode(transaction.sign, transaction.sender_pub_key,
+        jwt.decode(transaction.sign, transaction.sender_public_key,
                    algorithms=[ALGORITHM])
 
         self._transactions.update({transaction.sign: transaction})

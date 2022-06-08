@@ -23,17 +23,17 @@ class Wallet:
         for block in CHAIN:
             transactions = block.data.get("transactions", [])
             for transaction in transactions:
-                if transaction.sender_pub_key == self.public_key:
+                if transaction.sender_public_key == self.public_key:
                     withdraw += transaction.amount
                     statement.append(transaction.to_dict())
-                if transaction.recipient_pub_key == self.public_key:
+                if transaction.recipient_public_key == self.public_key:
                     deposit += transaction.amount
                     statement.append(transaction.to_dict())
 
         pending_transactions = \
             filter(lambda transaction:
                    self.public_key in (
-                       transaction.sender_pub_key, transaction.recipient_pub_key),
+                       transaction.sender_public_key, transaction.recipient_public_key),
                    node.transactions)
         return {"balance": deposit - withdraw, "statement": statement,
                 "pending": list(trx.to_dict() for trx in pending_transactions)}
