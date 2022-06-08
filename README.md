@@ -12,10 +12,6 @@ https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
 -->
 
 <!--
-##requirements:
-- front: html, css and bootstrap
-- back: python, flask, jinja
-- sqlite3 (use amazon s3 for sqlite server https://www.sqlite.org/serverless.html)
 ## how to run
 ## concepts
 Blockchain > _blockchain is a distributed database that allows direct transactions between two parties without the need of a central authority_
@@ -67,29 +63,6 @@ Consensus > ""
 <!--
 ## next steps
 
-curl localhost:5000/
-curl localhost:5000/api/chain
-curl localhost:5000/api/node
-curl -X POST localhost:5000/api/node/mine
-curl -X POST localhost:5000/api/wallet
-curl -X POST localhost:5000/api/transaction \
-  --header 'Content-Type: application/json' \
-  --data-raw '{
-    "sender_public_key": "sender_public_key",
-    "recipient_public_key": "recipient_public_key",
-    "amount": 15.50,
-    "description": null
-  }'
-
-curl localhost:5000/api/wallet/mock_key
-
-- api
-  - POST /api/wallet {}
-  -  GET /api/wallet/:id -> {pub_key, balance, statement}
-  -  GET /api/node -> current transactions
-  -  GET /api/chain -> [block]
-  - POST /api/node/mine
-  - POST /api/transaction {Transaction signed}
 - frontend
   - create wallet
   - view wallet -> show balance and statement (node transactions in PENDING and chain transactions APPROVEDS)
