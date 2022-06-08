@@ -1,17 +1,63 @@
-from flask import Flask, request, jsonify
+import json
+from flask import Flask, request, jsonify, render_template, redirect, flash, session
 
-from app.config import ALGORITHM
+from app.config import ALGORITHM, INITIAL_BALANCE
 from app.block import CHAIN, Block, validate_nonce
 from app.transaction import Transaction
 from app.wallet import Wallet, create_new_wallet
 from app.node import node, Node
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+
+
+@app.after_request
+def after_request(response):
+    """Ensure responses aren't cached"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 @app.route("/")
+# @login_required
 def index():
-    return jsonify({"message": "This is a Blockchain"}), 200
+    resp = jsonify({"message": "This is a Blockchain"}), 200
+    return render_template("index.html", purchases=list(),
+                           cash="0", total="0")
+
+
+@app.route("/register", methods=["GET", "POST"])
+# @logout_required
+def register():
+    if request.method == "POST":
+        create_wallet_resp = create_wallet()
+        wallet = create_wallet_resp[0].get_json()
+
+        session["user_id"] = wallet
+
+        flash('Your wallet was successfully created and signed in!')
+        flash(
+            f'Will be deposit to your wallet an amount of ${INITIAL_BALANCE} on next block.')
+        flash('These are your keys. The public one is your address.')
+        flash('And the private one is to sign your transactions. Do not share with others.')
+        flash('{public_key}'.format(**wallet).replace("\n", "\\n"))
+        flash('{private_key}'.format(**wallet).replace("\n", "\\n"))
+        # TODO redirect to sign in page to automatically sign in
+        return redirect("/")
+    else:
+        return render_template("register.html")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 
 @app.route("/api/node")

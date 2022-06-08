@@ -44,22 +44,16 @@
         <div class="collapse navbar-collapse" id="navbar">
           {% if session["user_id"] %}
           <ul class="navbar-nav me-auto mt-2">
-            <li class="nav-item">
-              <a class="nav-link" href="/quote">Quote</a>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="/buy">Buy</a></li>
-            <li class="nav-item"><a class="nav-link" href="/sell">Sell</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="/history">History</a>
-            </li>
+            <!--
+              TODO:
+              (TODO blockchain and node should be possible see even not signed)
+              <li class="nav-item"><a class="nav-link" href="/blockchain">Blockchain</a></li>
+              <li class="nav-item"><a class="nav-link" href="/node">Node</a></li>
+              <li class="nav-item"><a class="nav-link" href="/wallet">Wallet</a></li>
+              <li class="nav-item"><a class="nav-link" href="/transaction">Transaction</a></li>
+            -->
           </ul>
           <ul class="navbar-nav ms-auto mt-2">
-            <li class="nav-item">
-              <a class="nav-link" href="/deposit-money">Deposit Money</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/change-password">Change Password</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Log Out</a>
             </li>
@@ -67,16 +61,30 @@
           {% else %}
           <ul class="navbar-nav ms-auto mt-2">
             <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
+              <a class="nav-link" href="/register">Create Wallet</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Log In</a>
-            </li>
+            <!--
+              TODO:
+              <li class="nav-item">
+                <a class="nav-link" href="/signin">Sign In</a>
+              </li>
+            -->
           </ul>
           {% endif %}
         </div>
       </div>
     </nav>
+
+    {% if get_flashed_messages() %}
+    <header>
+      </ul>
+      <div class="alert alert-primary mb-0 text-center" role="alert">
+        {% for message in get_flashed_messages() %}
+        {{ message }}<br />
+        {% endfor %}
+      </div>
+    </header>
+    {% endif %}
 
     <main class="container-fluid py-5 text-center">
       {% block main %}{% endblock %}
