@@ -21,12 +21,11 @@ welcome:
 
 remove-containers:
 ifneq ($(shell docker ps -a --filter "name=${APP_NAME}" -aq 2> /dev/null | wc -l | bc), 0)
-	@echo "${YELLOW}Removing containers${COLOR_OFF}"
+	@echo "${YELLOW}removing containers${COLOR_OFF}"
 	@docker ps -a --filter "name=${APP_NAME}" -aq | xargs docker rm -f
 endif
 
-docker-debug: welcome remove-containers
-	@echo "${YELLOW}Initiating container ${APP_NAME}${COLOR_OFF}"
+docker-command: remove-containers
 	@docker run -it -v $(shell pwd):${APP_DIR} -w ${APP_DIR} \
 		--name ${APP_NAME} \
 		--env-file .env \
@@ -35,6 +34,16 @@ docker-debug: welcome remove-containers
 			python3 -m pip install --upgrade pip && \
 			pip3 install -r requirements.txt && \
 			${COMMAND}"
+
+docker-debug: welcome
+	@echo "${YELLOW}debug mode${COLOR_OFF}"
+	@make docker-command
+
+docker-test: welcome
+	@echo "${YELLOW}tests${COLOR_OFF}"
+	@make docker-command COMMAND="\
+		pip3 install -r requirements.txt && \
+		python3 -m unittest -v"
 
 ip:
 	@docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${APP_NAME}
