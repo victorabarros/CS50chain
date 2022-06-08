@@ -9,34 +9,34 @@ from app.transaction import Transaction
 
 class Wallet:
 
-    def __init__(self, public_key, private_key):
+    def __init__(self, public_key, private_key=None):
         self.created_at = datetime.utcnow()
-        self._public_key = public_key
-        self._private_key = private_key
-
-        self._set_initial_balance()
-
-    def _set_initial_balance(self):
-        trx = Transaction(UNIVERSAL_PUBLIC_KEY, self.public_key,
-                          INITIAL_BALANCE, "Initial balance")
-
-        trx.do_sign(UNIVERSAL_PRIVATE_KEY)
-
-        node.submit_transaction(trx)
+        self._public_key = public_key.replace("\\n", "\n")
+        if (private_key):
+            self._private_key = private_key.replace("\\n", "\n")
 
     @property
-    def balance(self):
+    def financial_data(self):
+        statement = list()
         withdraw = 0
         deposit = 0
         for block in CHAIN:
             transactions = block.data.get("transactions", [])
-            for trx in transactions:
-                if trx.sender_pub_key == self.public_key:
-                    withdraw += trx.amount
-                if trx.recipient_pub_key == self.public_key:
-                    deposit += trx.amount
+            for transaction in transactions:
+                if transaction.sender_pub_key == self.public_key:
+                    withdraw += transaction.amount
+                    statement.append(transaction.to_dict())
+                if transaction.recipient_pub_key == self.public_key:
+                    deposit += transaction.amount
+                    statement.append(transaction.to_dict())
 
-        return deposit - withdraw
+        pending_transactions = \
+            filter(lambda transaction:
+                   self.public_key in (
+                       transaction.sender_pub_key, transaction.recipient_pub_key),
+                   node.transactions)
+        return {"balance": deposit - withdraw, "statement": statement,
+                "pending": list(trx.to_dict() for trx in pending_transactions)}
 
     @property
     def public_key(self):
@@ -62,5 +62,16 @@ def generate_pair_key():
     }
 
 
+def _set_initial_balance(wallet):
+    trx = Transaction(UNIVERSAL_PUBLIC_KEY, wallet.public_key,
+                      INITIAL_BALANCE, "Initial balance")
+
+    trx.do_sign(UNIVERSAL_PRIVATE_KEY)
+
+    node.submit_transaction(trx)
+
+
 def create_new_wallet():
-    return Wallet(**generate_pair_key())
+    wallet = Wallet(**generate_pair_key())
+    _set_initial_balance(wallet)
+    return wallet

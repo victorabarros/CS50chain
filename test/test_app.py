@@ -51,5 +51,39 @@ class TestApp(unittest.TestCase):
                 jwt.decode(trx.sign, trx.sender_pub_key,
                            algorithms=[ALGORITHM])
 
-        self.assertEqual(sender.balance, INITIAL_BALANCE - trx.amount)
-        self.assertEqual(recipient.balance, INITIAL_BALANCE + trx.amount)
+        trx2 = Transaction(sender.public_key, recipient.public_key, 17.43)\
+            .do_sign(sender.private_key)
+        node.submit_transaction(trx2)
+
+        trx3 = Transaction(sender.public_key, recipient.public_key, 77.03)\
+            .do_sign(sender.private_key)
+        node.submit_transaction(trx3)
+
+        sender_financial_data = sender.financial_data
+        recipient_financial_data = recipient.financial_data
+
+        self.assertEqual(
+            round(sender_financial_data["balance"], 2),
+            round(INITIAL_BALANCE - trx.amount, 2))
+        self.assertEqual(
+            round(recipient_financial_data["balance"], 2),
+            round(INITIAL_BALANCE + trx.amount, 2))
+
+        self.assertEqual(
+            round(sum(trx["amount"]
+                  for trx in sender_financial_data["pending"]), 2),
+            round(trx2.amount + trx3.amount, 2))
+
+        self.assertEqual(
+            round(sum(trx["amount"]
+                  for trx in recipient_financial_data["pending"]), 2),
+            round(trx2.amount + trx3.amount, 2))
+
+        node.mine_block()
+
+        self.assertEqual(
+            round(sender.financial_data["balance"], 2),
+            round(INITIAL_BALANCE - trx.amount - trx2.amount - trx3.amount, 2))
+        self.assertEqual(
+            round(recipient.financial_data["balance"], 2),
+            round(INITIAL_BALANCE + trx.amount + trx2.amount + trx3.amount, 2))
