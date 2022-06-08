@@ -58,7 +58,7 @@ Consensus > ""
 ## api
 
 - POST /api/wallet {}
-- GET  /api/wallet/:id -> {pub_key, balance, statement}
+- POST /api/search/wallet {public_key:public_key} -> {pub_key, balance, statement}
 - GET  /api/node -> current transactions
 - GET  /api/chain -> [block]
 - POST /api/node/mine

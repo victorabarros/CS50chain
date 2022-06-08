@@ -28,29 +28,6 @@
 			"response": []
 		},
 		{
-			"name": "api/chain",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://172.17.0.4:5000/api/chain",
-					"protocol": "http",
-					"host": [
-						"172",
-						"17",
-						"0",
-						"4"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"chain"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "api/node",
 			"request": {
 				"method": "GET",
@@ -98,6 +75,39 @@
 			"response": []
 		},
 		{
+			"name": "api/search/wallet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"public_key\": \"-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjFNn0csaiugCTae/wt3H\\nXWdyMipBD9kkgc1yX6sFDsEuR8hDDBOJbNdJf/AlJrYCjC4+TC9nrkbeuJV1Yeb0\\n3pMUvmrpSstFsHqExJBrjivlDXOky5QsyNfr7oAXwMXLaLHa/4eKErkvDLmbaXLS\\nboavtd03dBVZPSnNtUVrtp8OJ5fbcIwIbPkdKZ6TDTrypH9N5g7QsKFlferSPC1J\\nmPtevLIIco7wa1CBR3vXL6UrmMhwv+k5WdHNrqP5h9yestMkGe4C/qMHVTEHzOZ2\\nyoaqf/mFjR4VSWJHa70QUB267phy0c7VxHebdrzE8/WzqWEusreADgUAlf0uvfs5\\n9wIDAQAB\\n-----END PUBLIC KEY-----\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/search/wallet",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"search",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "api/wallet",
 			"request": {
 				"method": "POST",
@@ -115,6 +125,29 @@
 					"path": [
 						"api",
 						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/chain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/chain",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"chain"
 					]
 				}
 			},
