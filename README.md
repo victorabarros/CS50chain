@@ -68,9 +68,20 @@ Consensus > ""
 ## next steps
 
 curl localhost:5000/
-curl localhost:5000/api/node
 curl localhost:5000/api/chain
-curl -X POST localhost:5000/api/mine
+curl localhost:5000/api/node
+curl -X POST localhost:5000/api/node/mine
+curl -X POST localhost:5000/api/wallet
+curl -X POST localhost:5000/api/transaction \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "sender_public_key": "sender_public_key",
+    "recipient_public_key": "recipient_public_key",
+    "amount": 15.50,
+    "description": null
+  }'
+
+curl localhost:5000/api/wallet/mock_key
 
 - api
   - POST /api/wallet {}
@@ -92,9 +103,13 @@ curl -X POST localhost:5000/api/mine
 
 ## improvements
 
-- unit tests
 - swagger
 -->
+
+## tests
+
+python3 -m unittest -v
+<!-- TODO move to Makefile -->
 
 ## references
 

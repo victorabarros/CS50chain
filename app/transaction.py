@@ -9,8 +9,8 @@ class Transaction:
 
     def __init__(self, sender_pub_key: str, recipient_pub_key: str, amount: float, description: str = None):
         self.created_at = datetime.utcnow()
-        self.sender_pub_key = sender_pub_key
-        self.recipient_pub_key = recipient_pub_key
+        self.sender_pub_key = sender_pub_key.replace("\\n", "\n")
+        self.recipient_pub_key = recipient_pub_key.replace("\\n", "\n")
         self.amount = amount
         self.description = description
 
@@ -35,7 +35,14 @@ class Transaction:
         self._sign = jwt.encode(self.to_dict(),
                                 sender_private_key, algorithm=ALGORITHM)
         jwt.decode(self._sign, self.sender_pub_key, algorithms=[ALGORITHM])
+        return self
 
     @property
     def sign(self):
         return self._sign
+
+    @sign.setter
+    def sign(self, value):
+        jwt.decode(value, self.sender_pub_key, algorithms=[ALGORITHM])
+        # TODO validate decoded with self properties
+        self._sign = value

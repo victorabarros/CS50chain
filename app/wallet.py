@@ -10,12 +10,10 @@ from app.transaction import Transaction
 class Wallet:
     initial_balance = 1000
 
-    def __init__(self):
+    def __init__(self, public_key, private_key):
         self.created_at = datetime.utcnow()
-        rsa = RSA.generate(BITS)
-
-        self.private_key = rsa.export_key().decode()
-        self.public_key = rsa.publickey().export_key().decode()
+        self._public_key = public_key
+        self._private_key = private_key
 
         self._set_initial_balance()
 
@@ -40,3 +38,30 @@ class Wallet:
                     deposit += trx.amount
 
         return deposit - withdraw
+
+    @property
+    def public_key(self):
+        return self._public_key
+
+    @property
+    def private_key(self):
+        return self._private_key
+
+    def to_dict(self):
+        return {
+            "created_at": self.created_at.isoformat(),
+            "public_key": self.public_key,
+            "private_key": self.private_key,
+        }
+
+
+def generate_pair_key():
+    rsa = RSA.generate(BITS)
+    return {
+        "private_key": rsa.export_key().decode(),
+        "public_key": rsa.publickey().export_key().decode(),
+    }
+
+
+def create_new_wallet():
+    return Wallet(**generate_pair_key())
