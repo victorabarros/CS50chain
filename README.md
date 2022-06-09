@@ -76,6 +76,9 @@ Mine means do a proof of work calculation and with this be reponsable to send th
   - add copy to clipboard button on table lines and copy object
   - clicable line to expand with complete object
 - DB - try serveless sqlite3 (try s3)
+  - aws s3 doesn't work;
+  - try gcp cloud storage;
+  - heroku sql
 - sync transactions and chain with other nodes
 - deploy on heroku or other serveless
 

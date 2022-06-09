@@ -4,11 +4,10 @@ from datetime import datetime
 from cs50 import SQL
 
 from app.block import CHAIN, Block
-from app.config import ALGORITHM
+from app.config import ALGORITHM, DATABASE_URL
 from app.transaction import Transaction
 
-# TODO move to config
-db = SQL("sqlite:///database.db")
+db = SQL(DATABASE_URL)
 
 
 class Node:
@@ -28,7 +27,7 @@ class Node:
     def transactions(self):
         return self._transactions.values()
 
-    def sync_chain_with_db(self):
+    def _sync_chain_with_db(self):
         resp = db.execute("SELECT * FROM blockchain")
         if len(resp) == 0:
             CHAIN.append(Block())
@@ -42,7 +41,7 @@ class Node:
             CHAIN.append(Block.from_dict(**block))
 
     def sync(self):
-        self.sync_chain_with_db()
+        self._sync_chain_with_db()
         # TODO sync chain with other nodes
         # TODO sync transactions with other nodes
         # IMPROVE grpc https://grpc.io/docs/languages/python/basics/
