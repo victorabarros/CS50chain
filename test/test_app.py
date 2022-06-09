@@ -63,11 +63,11 @@ class TestApp(unittest.TestCase):
         recipient_financial_data = recipient.financial_data
 
         self.assertEqual(
-            round(sender_financial_data["balance"], 2),
-            round(INITIAL_BALANCE - trx.amount, 2))
+            round(sender_financial_data["balance"], 2), round(sender._balance(), 2))
         self.assertEqual(
-            round(recipient_financial_data["balance"], 2),
-            round(INITIAL_BALANCE + trx.amount, 2))
+            round(sender_financial_data["balance"], 2), round(INITIAL_BALANCE - trx.amount, 2))
+        self.assertEqual(
+            round(recipient_financial_data["balance"], 2), round(INITIAL_BALANCE + trx.amount, 2))
 
         self.assertEqual(
             round(sum(trx["amount"]
@@ -82,8 +82,6 @@ class TestApp(unittest.TestCase):
         node.mine_block()
 
         self.assertEqual(
-            round(sender.financial_data["balance"], 2),
-            round(INITIAL_BALANCE - trx.amount - trx2.amount - trx3.amount, 2))
+            round(sender.financial_data["balance"], 2), round(INITIAL_BALANCE - trx.amount - trx2.amount - trx3.amount, 2))
         self.assertEqual(
-            round(recipient.financial_data["balance"], 2),
-            round(INITIAL_BALANCE + trx.amount + trx2.amount + trx3.amount, 2))
+            round(recipient.financial_data["balance"], 2), round(INITIAL_BALANCE + trx.amount + trx2.amount + trx3.amount, 2))

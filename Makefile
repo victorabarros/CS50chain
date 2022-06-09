@@ -1,4 +1,4 @@
-APP_NAME=cs50x-blockchain
+APP_NAME=cs50chain
 APP_DIR=/${APP_NAME}/app
 DOCKER_BASE_IMAGE=python:3.10
 COMMAND?=bash

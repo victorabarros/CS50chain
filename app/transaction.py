@@ -45,5 +45,4 @@ class Transaction:
     @sign.setter
     def sign(self, value):
         jwt.decode(value, self.sender_public_key, algorithms=[ALGORITHM])
-        # TODO validate decoded with self properties
         self._sign = value

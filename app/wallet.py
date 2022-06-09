@@ -17,8 +17,13 @@ class Wallet:
 
     @property
     def financial_data(self):
-        # TODO split in 3 methods: balance, statement and pending
-        statement = list()
+        return {
+            "balance": self._balance(),
+            "statement": self._statement(),
+            "pending": self._node_transactions(),
+        }
+
+    def _balance(self):
         withdraw = 0
         deposit = 0
         for block in CHAIN:
@@ -26,18 +31,33 @@ class Wallet:
             for transaction in transactions:
                 if transaction.sender_public_key == self.public_key:
                     withdraw += transaction.amount
-                    statement.append(transaction.to_dict())
                 if transaction.recipient_public_key == self.public_key:
                     deposit += transaction.amount
-                    statement.append(transaction.to_dict())
+        return deposit - withdraw
 
+    def _statement(self):
+        statement = list()
+        for block in CHAIN:
+            block_transactions = block.data.get("transactions", [])
+            statement.extend(list(
+                filter(
+                    lambda transaction:
+                        self.public_key in (
+                            transaction.sender_public_key, transaction.recipient_public_key),
+                        block_transactions
+                )
+            ))
+
+        return list(trx.to_dict() for trx in statement)
+
+    def _node_transactions(self):
         pending_transactions = \
             filter(lambda transaction:
                    self.public_key in (
                        transaction.sender_public_key, transaction.recipient_public_key),
                    node.transactions)
-        return {"balance": deposit - withdraw, "statement": statement,
-                "pending": list(trx.to_dict() for trx in pending_transactions)}
+
+        return list(trx.to_dict() for trx in pending_transactions)
 
     @property
     def public_key(self):

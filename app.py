@@ -44,7 +44,6 @@ def handle_register():
         flash('And the private one is to sign your transactions. Do not share with others.')
         flash('{public_key}'.format(**wallet).replace("\n", "\\n"))
         flash('{private_key}'.format(**wallet).replace("\n", "\\n"))
-        # TODO redirect to sign in page to automatically sign in
         return redirect("/")
     else:
         return render_template("register.html")
@@ -129,7 +128,6 @@ def get_chain():
 
 @app.route("/api/wallet", methods=["POST"])
 def create_wallet():
-    # TODO should not expose private_key
     return jsonify(create_new_wallet().to_dict()), 201
 
 
