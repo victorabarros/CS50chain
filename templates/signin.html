@@ -1,0 +1,27 @@
+{% extends "layout.html" %} {% block title %} Sign In {% endblock %} {% block
+main %}
+<form action="/signin" method="post">
+  <div class="mb-3">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control mx-auto w-auto"
+      id="public_key"
+      name="public_key"
+      placeholder="Public key"
+      type="text"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      class="form-control mx-auto w-auto"
+      id="private_key"
+      name="private_key"
+      placeholder="Private key"
+      required
+    />
+  </div>
+  <button class="btn btn-primary" type="submit">Log In</button>
+</form>
+{% endblock %}

@@ -1,7 +1,6 @@
 # CS50chain
 
-CS50 2022 Final Project
-Blockchain POC
+Blockchain POC to CS50 final project
 
 <!--
 #### Video Demo:  <URL HERE>

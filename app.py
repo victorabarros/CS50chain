@@ -25,15 +25,12 @@ def after_request(response):
 
 
 @app.route("/")
-# @login_required
 def index():
-    resp = jsonify({"message": "This is a Blockchain"}), 200
     return render_template("index.html", purchases=list(),
                            cash="0", total="0")
 
 
 @app.route("/register", methods=["GET", "POST"])
-# @logout_required
 def register():
     if request.method == "POST":
         create_wallet_resp = create_wallet()
@@ -52,6 +49,20 @@ def register():
         return redirect("/")
     else:
         return render_template("register.html")
+
+
+@app.route("/signin", methods=["GET", "POST"])
+def signin():
+    if request.method == "POST":
+        wallet = Wallet(request.form["public_key"],
+                        request.form["private_key"])
+
+        session["user_id"] = wallet.to_dict()
+
+        flash('Your wallet was successfully signed in!')
+        return redirect("/")
+    else:
+        return render_template("signin.html")
 
 
 @app.route("/logout")

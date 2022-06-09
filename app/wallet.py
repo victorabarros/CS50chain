@@ -17,6 +17,7 @@ class Wallet:
 
     @property
     def financial_data(self):
+        # TODO split in 3 methods: balance, statement and pending
         statement = list()
         withdraw = 0
         deposit = 0
