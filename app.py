@@ -76,6 +76,14 @@ def blockchain():
     return render_template("blockchain.html", blockchain=chain)
 
 
+@app.route("/node", methods=["GET", "POST"])
+def handler_node():
+    if request.method == "POST":
+        mine_block()
+    node = get_node()[0].get_json()
+    return render_template("node.html", transactions=node["transactions"])
+
+
 @app.route("/api/node")
 def get_node():
     return jsonify(node.to_dict()), 200

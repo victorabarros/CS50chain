@@ -45,10 +45,10 @@
           {% if session["user_id"] %}
           <ul class="navbar-nav me-auto mt-2">
             <li class="nav-item"><a class="nav-link" href="/blockchain">Blockchain</a></li>
+            <li class="nav-item"><a class="nav-link" href="/node">Node</a></li>
             <!--
               TODO:
               (TODO blockchain and node should be possible see even not signed)
-              <li class="nav-item"><a class="nav-link" href="/node">Node</a></li>
               <li class="nav-item"><a class="nav-link" href="/wallet">Wallet</a></li>
               <li class="nav-item"><a class="nav-link" href="/transaction">Transaction</a></li>
             -->
@@ -59,6 +59,7 @@
           {% else %}
           <ul class="navbar-nav me-auto mt-2">
             <li class="nav-item"><a class="nav-link" href="/blockchain">Blockchain</a></li>
+            <li class="nav-item"><a class="nav-link" href="/node">Node</a></li>
           </ul>
           <ul class="navbar-nav ms-auto mt-2">
             <li class="nav-item"><a class="nav-link" href="/register">Create Wallet</a></li>

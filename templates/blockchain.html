@@ -4,6 +4,7 @@ main %}
   <thead>
     <tr>
       <th class="text-start">id</th>
+      <th class="text-start">created at</th>
       <th class="text-start">hash</th>
       <th class="text-start">nonce</th>
       <th class="text-start">data</th>
@@ -13,6 +14,7 @@ main %}
     {% for block in blockchain %}
     <tr>
       <td class="text-start">{{ block["id"] }}</td>
+      <td class="text-start">{{ block["created_at"] }}</td>
       <td class="text-start">{{ block["hash"] }}</td>
       <td class="text-start">{{ block["nonce"] }}</td>
       <td class="text-start">{{ block["data"] }}</td>
