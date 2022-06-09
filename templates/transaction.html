@@ -1,0 +1,41 @@
+{% extends "layout.html" %} {% block title %} Transaction {% endblock %} {%
+block main %}
+<form action="/transaction" method="post">
+  <div class="mb-3">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control mx-auto w-auto"
+      id="recipient_public_key"
+      name="recipient_public_key"
+      placeholder="Recipient"
+      type="text"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      autocomplete="off"
+      class="form-control mx-auto w-auto"
+      min="0"
+      name="amount"
+      placeholder="Amount"
+      type="number"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control mx-auto w-auto"
+      id="description"
+      name="description"
+      placeholder="description"
+      type="text"
+    />
+  </div>
+
+  <button class="btn btn-primary" type="submit">Submit Transaction</button>
+</form>
+{% endblock %}

@@ -31,7 +31,7 @@
       </td>
       <td class="text-start">{{ transaction["amount"] }}</td>
       <td class="text-start">{{ transaction["description"] }}</td>
-      <td class="text-start">{{ transaction["sign"][:32] }}</td>
+      <td class="text-start">{{ transaction["sign"][78:110] }}</td>
       <td class="text-start">{{ transaction["created_at"] }}</td>
     </tr>
     {% endfor %}

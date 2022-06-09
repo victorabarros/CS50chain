@@ -80,6 +80,8 @@ def handle_blockchain():
 def handle_node():
     if request.method == "POST":
         mine_block()
+        flash('Node was successfully mined!')
+        flash('See on Blockchain tab')
     node = get_node()[0].get_json()
     return render_template("node.html", transactions=node["transactions"])
 
@@ -89,6 +91,25 @@ def handle_wallet():
     wallet = Wallet(session["user_id"]["public_key"])
 
     return render_template("wallet.html", public_key=wallet.public_key, **wallet.financial_data)
+
+
+@app.route("/transaction", methods=["GET", "POST"])
+def handle_transaction():
+    transaction = None
+    if request.method == "POST":
+        recipient_public_key = request.form["recipient_public_key"]
+        amount = int(request.form["amount"])
+        description = request.form["description"] or None
+
+        trx = Transaction(
+            session["user_id"]["public_key"], recipient_public_key, amount, description)
+        node.submit_transaction(trx.do_sign(
+            session["user_id"]["private_key"]))
+        transaction = trx.to_dict()
+        flash('Transaction was successfully submitted!')
+        flash('See on Node tab')
+
+    return render_template("transaction.html", transaction=transaction)
 
 
 @app.route("/api/node")
