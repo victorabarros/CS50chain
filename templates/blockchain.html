@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block title %} Blockchain {% endblock %} {% block
+main %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-start">id</th>
+      <th class="text-start">hash</th>
+      <th class="text-start">nonce</th>
+      <th class="text-start">data</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for block in blockchain %}
+    <tr>
+      <td class="text-start">{{ block["id"] }}</td>
+      <td class="text-start">{{ block["hash"] }}</td>
+      <td class="text-start">{{ block["nonce"] }}</td>
+      <td class="text-start">{{ block["data"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

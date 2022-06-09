@@ -26,8 +26,7 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    return render_template("index.html", purchases=list(),
-                           cash="0", total="0")
+    return render_template("index.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -69,6 +68,12 @@ def signin():
 def logout():
     session.clear()
     return redirect("/")
+
+
+@app.route("/blockchain")
+def blockchain():
+    chain = get_chain()[0].get_json()
+    return render_template("blockchain.html", blockchain=chain)
 
 
 @app.route("/api/node")
