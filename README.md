@@ -83,8 +83,7 @@ Consensus > ""
 
 ## tests
 
-python3 -m unittest -v
-<!-- TODO move to Makefile -->
+`make docker-test`
 
 ## references
 
