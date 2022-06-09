@@ -2,3 +2,4 @@ PyJWT==2.4.0
 pycryptodome==3.14.1
 cryptography==37.0.2
 flask==2.1.2
+cs50==9.0.0

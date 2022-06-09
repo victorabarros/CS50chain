@@ -14,7 +14,6 @@ https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
 -->
 
 <!--
-## how to run
 ## concepts
 Blockchain > _blockchain is a distributed database that allows direct transactions between two parties without the need of a central authority_
 Hash > it's one side only algo. must popular is SHA256
@@ -26,6 +25,14 @@ Consensus > ""
 - https://www.heroku.com/
 
 -->
+
+## Description:
+
+Blockchain is a descentralized way to save data. In our case, as bitcoin works, the data is financial transactions.
+First is necessary the user create their wallet that's is a pair of RSA256 keys. These will work as addres to receive deposits and authenticate withdraws.
+The API in it self is an abstraction to a Node, it is a piece of the network that descentrelize the blockchain. It is responsable to submit transactions to block and mine it.
+Mine means do a proof of work calculation and with this be reponsable to send the new block to the blockchain.
+
 ## entities
 
 - Wallet
@@ -63,18 +70,24 @@ Consensus > ""
 - POST /api/transaction {Transaction signed}
 
 <!--
-## next steps
+## todo
 
 - frontend
-  - create wallet
-  - view wallet -> show balance and statement (node transactions in PENDING and chain transactions APPROVEDS)
-  - transactions view -> show current node transactions in pending and chain transactions approveds
-  - block view -> show all blockchain table
-  - force mine button
-  - submit transaction
+  - add copy to clipboard button on table lines and copy object
+  - clicable line to expand with complete object
 - DB - try serveless sqlite3 (try s3)
 - sync transactions and chain with other nodes
 - deploy on heroku or other serveless
+
+```sql
+CREATE TABLE blockchain (
+    id INTEGER NOT NULL,
+    hash TEXT NOT NULL,
+    nonce INTEGER NOT NULL,
+    data TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+```
 
 ## improvements
 

@@ -1,8 +1,14 @@
 import jwt
+import json
+from datetime import datetime
+from cs50 import SQL
 
 from app.block import CHAIN, Block
 from app.config import ALGORITHM
 from app.transaction import Transaction
+
+# TODO move to config
+db = SQL("sqlite:///database.db")
 
 
 class Node:
@@ -22,17 +28,39 @@ class Node:
     def transactions(self):
         return self._transactions.values()
 
-    def sync(self):
-        if len(CHAIN) == 0:
+    def sync_chain_with_db(self):
+        resp = db.execute("SELECT * FROM blockchain")
+        if len(resp) == 0:
             CHAIN.append(Block())
-        # TODO sync transactions and chain from other nodes
-        # try using grpc https://grpc.io/docs/languages/python/basics/
+            return
+
+        CHAIN.clear()
+        for block in resp:
+            # IMPROVE remove clear, iterate reversed and check if block has same hash; break
+            block["data"] = json.loads(block["data"])
+
+            CHAIN.append(Block.from_dict(**block))
+
+    def sync(self):
+        self.sync_chain_with_db()
+        # TODO sync chain with other nodes
+        # TODO sync transactions with other nodes
+        # IMPROVE grpc https://grpc.io/docs/languages/python/basics/
 
     def mine_block(self):
         self.sync()
         new_block = Block({'transactions': list(self._transactions.values())})
 
         CHAIN.append(new_block)
+
+        new_block_dict = new_block.to_dict()
+        new_block_dict["data"] = json.dumps(new_block_dict["data"])
+
+        # IMPROVE do async
+        db.execute(
+            "INSERT INTO blockchain (id, created_at, data, nonce, hash) VALUES(?, ?, ?, ?, ?)",
+            *new_block_dict.values())
+
         self._transactions.clear()
 
         return new_block

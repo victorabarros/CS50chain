@@ -5,15 +5,20 @@ from app.config import ALGORITHM
 
 
 class Transaction:
+    # IMPROVE add enum status (pending on node and accepted on chain)
     _sign = None
-    # TODO add enum status (pending on node and accepted on chain)
+    _created_at = None
+    _sender_public_key = None
+    _recipient_public_key = None
+    _amount = None
+    _description = None
 
-    def __init__(self, sender_pub_key: str, recipient_pub_key: str, amount: float, description: str = None):
-        self.created_at = datetime.utcnow()
-        self.sender_public_key = sender_pub_key.replace("\\n", "\n")
-        self.recipient_public_key = recipient_pub_key.replace("\\n", "\n")
-        self.amount = amount
-        self.description = description
+    def __init__(self, sender_public_key: str, recipient_public_key: str, amount: float, description: str = None, **kwargs):
+        self._created_at = datetime.utcnow()
+        self._sender_public_key = sender_public_key.replace("\\n", "\n")
+        self._recipient_public_key = recipient_public_key.replace("\\n", "\n")
+        self._amount = amount
+        self._description = description
 
     def to_dict(self, sender_private_key: str = None):
         if (sender_private_key):
@@ -27,6 +32,13 @@ class Transaction:
             "description": self.description,
             "sign": self._sign,
         }
+
+    @staticmethod
+    def from_dict(**kwargs):
+        t = Transaction(**kwargs)
+        t._created_at = datetime.fromisoformat(kwargs["created_at"])
+        t.sign = kwargs["sign"]
+        return t
 
     def do_sign(self, sender_private_key: str):
         if self._sign:
@@ -46,3 +58,23 @@ class Transaction:
     def sign(self, value):
         jwt.decode(value, self.sender_public_key, algorithms=[ALGORITHM])
         self._sign = value
+
+    @property
+    def created_at(self):
+        return self._created_at
+
+    @property
+    def sender_public_key(self):
+        return self._sender_public_key
+
+    @property
+    def recipient_public_key(self):
+        return self._recipient_public_key
+
+    @property
+    def amount(self):
+        return self._amount
+
+    @property
+    def description(self):
+        return self._description

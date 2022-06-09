@@ -1,20 +1,21 @@
 import hashlib
 import json
 from datetime import datetime
+from typing import List
 
 from app.config import NONCE_VALIDATION_DIFFICULTY
-
-
-CHAIN = list()
+from app.transaction import Transaction
 
 
 class Block:
+    _id = None
+    _created_at = None
     _hash = None
     _nonce = None
 
     def __init__(self, data={}):
-        self.id = len(CHAIN)
-        self.created_at = datetime.utcnow()
+        self._id = len(CHAIN)
+        self._created_at = datetime.utcnow()
         self._data = data
         if len(CHAIN) > 0:
             self._nonce = run_proof_of_work(CHAIN[-1].hash)
@@ -30,6 +31,22 @@ class Block:
     def to_dict(self):
         return {**self._internal_to_dict(), 'hash': self.hash}
 
+    @staticmethod
+    def from_dict(**kwargs):
+        kwargs["created_at"] = datetime.fromisoformat(kwargs["created_at"])
+
+        if (kwargs["data"].get("transactions")):
+            kwargs["data"]["transactions"] = [Transaction.from_dict(
+                **trx) for trx in kwargs["data"]["transactions"]]
+
+        b = Block()
+        b._id = kwargs["id"]
+        b._created_at = kwargs["created_at"]
+        b._hash = kwargs["hash"]
+        b._nonce = kwargs["nonce"]
+        b._data = kwargs["data"]
+        return b
+
     @property
     def hash(self):
         if self._hash:
@@ -38,6 +55,14 @@ class Block:
                             sort_keys=True, default=str)
         self._hash = hashlib.sha256(dumped.encode()).hexdigest()
         return self._hash
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def created_at(self):
+        return self._created_at
 
     @property
     def data(self):
@@ -61,3 +86,6 @@ def validate_nonce(previous_block_hash, nonce):
     guess = (f'{previous_block_hash}{nonce}').encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     return guess_hash.startswith('0' * NONCE_VALIDATION_DIFFICULTY)
+
+
+CHAIN: List[Block] = list()

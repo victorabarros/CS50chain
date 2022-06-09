@@ -10,7 +10,7 @@ from app.wallet import create_new_wallet
 
 
 class TestApp(unittest.TestCase):
-    # TODO add more tests https://docs.python.org/3/library/unittest.html#basic-example
+    # IMPROVE add more tests https://docs.python.org/3/library/unittest.html#basic-example
 
     def test_transaction(self):
         sender = create_new_wallet()
