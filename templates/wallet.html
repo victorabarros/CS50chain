@@ -1,0 +1,68 @@
+{% extends "layout.html" %} {% block title %} Wallet {% endblock %} {% block
+main %}
+
+<div>{{ public_key }}</div>
+<h2>Balance: ${{ balance }}</h2>
+
+<br />
+<h2>Node Transactions (pending)</h2>
+<br />
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-start">sender</th>
+      <th class="text-start">recipient</th>
+      <th class="text-start">amount</th>
+      <th class="text-start">description</th>
+      <th class="text-start">sign</th>
+      <th class="text-start">created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for transaction in pending %}
+    <tr>
+      <td class="text-start">{{ transaction["sender_public_key"][71:103] }}</td>
+      <td class="text-start">
+        {{ transaction["recipient_public_key"][71:103] }}
+      </td>
+      <td class="text-start">{{ transaction["amount"] }}</td>
+      <td class="text-start">{{ transaction["description"] }}</td>
+      <td class="text-start">{{ transaction["sign"][:32] }}</td>
+      <td class="text-start">{{ transaction["created_at"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br />
+<h2>Statement Transactions (from blockchain)</h2>
+<br />
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-start">sender</th>
+      <th class="text-start">recipient</th>
+      <th class="text-start">amount</th>
+      <th class="text-start">description</th>
+      <th class="text-start">sign</th>
+      <th class="text-start">created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for transaction in statement %}
+    <tr>
+      <td class="text-start">{{ transaction["sender_public_key"][71:103] }}</td>
+      <td class="text-start">
+        {{ transaction["recipient_public_key"][71:103] }}
+      </td>
+      <td class="text-start">{{ transaction["amount"] }}</td>
+      <td class="text-start">{{ transaction["description"] }}</td>
+      <td class="text-start">{{ transaction["sign"][:32] }}</td>
+      <td class="text-start">{{ transaction["created_at"] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

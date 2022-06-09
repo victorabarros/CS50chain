@@ -25,12 +25,12 @@ def after_request(response):
 
 
 @app.route("/")
-def index():
+def handle_index():
     return render_template("index.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
-def register():
+def handle_register():
     if request.method == "POST":
         create_wallet_resp = create_wallet()
         wallet = create_wallet_resp[0].get_json()
@@ -51,7 +51,7 @@ def register():
 
 
 @app.route("/signin", methods=["GET", "POST"])
-def signin():
+def handle_signin():
     if request.method == "POST":
         wallet = Wallet(request.form["public_key"],
                         request.form["private_key"])
@@ -65,23 +65,30 @@ def signin():
 
 
 @app.route("/logout")
-def logout():
+def handle_logout():
     session.clear()
     return redirect("/")
 
 
 @app.route("/blockchain")
-def blockchain():
+def handle_blockchain():
     chain = get_chain()[0].get_json()
     return render_template("blockchain.html", blockchain=chain)
 
 
 @app.route("/node", methods=["GET", "POST"])
-def handler_node():
+def handle_node():
     if request.method == "POST":
         mine_block()
     node = get_node()[0].get_json()
     return render_template("node.html", transactions=node["transactions"])
+
+
+@app.route("/wallet")
+def handle_wallet():
+    wallet = Wallet(session["user_id"]["public_key"])
+
+    return render_template("wallet.html", public_key=wallet.public_key, **wallet.financial_data)
 
 
 @app.route("/api/node")
@@ -106,7 +113,7 @@ def create_wallet():
 
 
 @app.route("/api/search/wallet", methods=["POST"])
-def get_wallet():
+def search_wallet():
     payload = request.get_json()
     wallet = Wallet(payload["public_key"])
     return jsonify(wallet.financial_data), 200
