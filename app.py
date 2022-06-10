@@ -78,7 +78,7 @@ def handle_blockchain():
 @app.route("/node", methods=["GET", "POST"])
 def handle_node():
     if request.method == "POST":
-        api_add_node()
+        api_add_node_address()
     node = api_get_node()[0].get_json()
     return render_template("node.html", transactions=node["transactions"], nodes=node["nodes"])
 
@@ -122,10 +122,17 @@ def api_get_node():
     return jsonify(node.to_dict()), 200
 
 
-@app.route("/api/node", methods=["POST"])
-def api_add_node():
-    node.add_node_address(request.form["address"])
+@app.route("/api/node/address", methods=["POST"])
+def api_add_node_address():
+    address = request.form.get("address") or request.get_json().get("address")
+    node.add_node_address(address)
     return jsonify(), 201
+
+
+@app.route("/api/node/transactions", methods=["DELETE"])
+def api_clear_node_transactions():
+    node.clear_transactions()
+    return jsonify(), 200
 
 
 @app.route("/api/node/mine", methods=["POST"])
@@ -136,6 +143,12 @@ def api_mine_block():
 @app.route("/api/chain")
 def api_get_chain():
     return jsonify([block.to_dict() for block in CHAIN.values()]), 200
+
+
+@app.route("/api/chain", methods=["POST"])
+def sync_chain():
+    node.sync_blockchain()
+    return jsonify(), 200
 
 
 @app.route("/api/wallet", methods=["POST"])
