@@ -1,11 +1,11 @@
 import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 
-from app.config import ALGORITHM, INITIAL_BALANCE
-from app.block import CHAIN, Block, validate_nonce
+from app.config import INITIAL_BALANCE
+from app.block import CHAIN
 from app.transaction import Transaction
 from app.wallet import Wallet, create_new_wallet
-from app.node import node, Node
+from app.node import node
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -135,7 +135,7 @@ def api_mine_block():
 
 @app.route("/api/chain")
 def api_get_chain():
-    return jsonify([block.to_dict() for block in CHAIN]), 200
+    return jsonify([block.to_dict() for block in CHAIN.values()]), 200
 
 
 @app.route("/api/wallet", methods=["POST"])

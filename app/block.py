@@ -1,7 +1,7 @@
 import hashlib
 import json
 from datetime import datetime
-from typing import List
+from typing import Dict
 
 from app.config import NONCE_VALIDATION_DIFFICULTY
 from app.transaction import Transaction
@@ -14,11 +14,12 @@ class Block:
     _nonce = None
 
     def __init__(self, data={}):
-        self._id = len(CHAIN)
+        blockchain_len = len(CHAIN)
+        self._id = blockchain_len
         self._created_at = datetime.utcnow()
         self._data = data
-        if len(CHAIN) > 0:
-            self._nonce = run_proof_of_work(CHAIN[-1].hash)
+        if blockchain_len > 0:
+            self._nonce = run_proof_of_work(CHAIN[blockchain_len-1].hash)
 
     def _internal_to_dict(self):
         return {
@@ -30,6 +31,22 @@ class Block:
 
     def to_dict(self):
         return {**self._internal_to_dict(), 'hash': self.hash}
+
+    @staticmethod
+    def from_dict(**kwargs):
+        kwargs["created_at"] = datetime.fromisoformat(kwargs["created_at"])
+
+        if (kwargs["data"].get("transactions")):
+            kwargs["data"]["transactions"] = [Transaction.from_dict(
+                **trx) for trx in kwargs["data"]["transactions"]]
+
+        b = Block()
+        b._id = kwargs["id"]
+        b._created_at = kwargs["created_at"]
+        b._hash = kwargs["hash"]
+        b._nonce = kwargs["nonce"]
+        b._data = kwargs["data"]
+        return b
 
     @property
     def hash(self):
@@ -72,4 +89,4 @@ def validate_nonce(previous_block_hash, nonce):
     return guess_hash.startswith('0' * NONCE_VALIDATION_DIFFICULTY)
 
 
-CHAIN: List[Block] = list()
+CHAIN: Dict[int, Block] = dict()

@@ -12,10 +12,6 @@ class Node:
     _transactions = dict()
     _nodes = set()
 
-    def __init__(self):
-        # self.sync()
-        self.add_node_address("http://172.17.0.4:5000")  # todo remove
-
     def submit_transaction(self, transaction: Transaction):
         jwt.decode(transaction.sign, transaction.sender_public_key,
                    algorithms=[ALGORITHM])
@@ -27,28 +23,43 @@ class Node:
         return self._transactions.values()
 
     def sync(self):
-        trxs = self._sync_transactions()
-        # TODO sync chain with other nodes
+        self._sync_transactions()
+        self._sync_blockchain()
         # IMPROVE grpc https://grpc.io/docs/languages/python/basics/
 
         if len(CHAIN) == 0:
-            CHAIN.append(Block())
+            CHAIN.update({0: Block()})
             return
 
     def _sync_transactions(self):
+        new_nodes = set()
         for address in self._nodes:
             resp = requests.get(f"{address}/api/node")
             if not resp.ok:
-                return
+                continue
             payload = resp.json()
             node = Node.from_dict(**payload)
-            self._merge(node)
+
+            self._transactions.update(node._transactions)
+            new_nodes.update(node._nodes)
+        self._nodes.update(new_nodes)
+
+    def _sync_blockchain(self):
+        for address in self._nodes:
+            resp = requests.get(f"{address}/api/chain")
+            if not resp.ok:
+                continue
+            payload = resp.json()
+            for block in payload:
+                block = Block.from_dict(**block)
+
+                CHAIN.update({block.id: block})
 
     def mine_block(self):
         self.sync()
         new_block = Block({'transactions': list(self._transactions.values())})
 
-        CHAIN.append(new_block)
+        CHAIN.update({new_block.id: new_block})
 
         new_block_dict = new_block.to_dict()
         new_block_dict["data"] = json.dumps(new_block_dict["data"])
@@ -72,10 +83,6 @@ class Node:
          for trx in kwargs["transactions"]]
 
         return n
-
-    def _merge(self, node):
-        self._nodes.update(node._nodes)
-        self._transactions.update(node._transactions)
 
     def add_node_address(self, address):
         # IMPROVE check if url is valid; use regex

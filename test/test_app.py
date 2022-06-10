@@ -19,7 +19,7 @@ class TestApp(unittest.TestCase):
         recipient = create_new_wallet()
 
         self.assertEqual(len(node.transactions), 2)
-        self.assertEqual(len(CHAIN), 1)
+        self.assertEqual(len(CHAIN), 0)
 
         node.mine_block()
 
@@ -41,7 +41,7 @@ class TestApp(unittest.TestCase):
 
         self.assertIsNotNone(trx)
 
-        for block in CHAIN:
+        for block in CHAIN.values():
             # print(json.dumps(block.to_dict()))
             if block.id == 0:
                 continue

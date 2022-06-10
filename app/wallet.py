@@ -26,7 +26,7 @@ class Wallet:
     def _balance(self):
         withdraw = 0
         deposit = 0
-        for block in CHAIN:
+        for block in CHAIN.values():
             transactions = block.data.get("transactions", [])
             for transaction in transactions:
                 if transaction.sender_public_key == self.public_key:
@@ -37,7 +37,7 @@ class Wallet:
 
     def _statement(self):
         statement = list()
-        for block in CHAIN:
+        for block in CHAIN.values():
             block_transactions = block.data.get("transactions", [])
             statement.extend(list(
                 filter(
