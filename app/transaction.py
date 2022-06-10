@@ -33,6 +33,13 @@ class Transaction:
             "sign": self._sign,
         }
 
+    @staticmethod
+    def from_dict(**kwargs):
+        t = Transaction(**kwargs)
+        t._created_at = datetime.fromisoformat(kwargs["created_at"])
+        t.sign = kwargs["sign"]
+        return t
+
     def do_sign(self, sender_private_key: str):
         if self._sign:
             print("transaction already signed")

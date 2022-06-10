@@ -11,6 +11,8 @@ from app.wallet import create_new_wallet
 
 class TestApp(unittest.TestCase):
     # IMPROVE add more tests https://docs.python.org/3/library/unittest.html#basic-example
+    # IMPROVE split this test into smaller tests
+    # IMPROVE add node address test
 
     def test_transaction(self):
         sender = create_new_wallet()
