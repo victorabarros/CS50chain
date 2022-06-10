@@ -1,14 +1,14 @@
 {% extends "layout.html" %} {% block title %} Node {% endblock %} {% block main
 %}
 
-<form action="/node" method="post">
+<form action="/node/mine" method="post">
   <button class="btn btn-primary" type="submit">
-    <h2>Mine block</h2>
+    <h4>Mine block</h4>
   </button>
 </form>
 
 <br />
-<h2>Node Transactions</h2>
+<h4>Node Transactions</h4>
 <br />
 
 <table class="table table-striped">
@@ -37,4 +37,38 @@
     {% endfor %}
   </tbody>
 </table>
+
+<br />
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-start">address</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for address in nodes %}
+    <tr>
+      <td class="text-start">{{ address }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<br />
+<form action="/node" method="post">
+  <div class="mb-3">
+    <input
+      autocomplete="off"
+      autofocus
+      class="form-control mx-auto w-auto"
+      id="address"
+      name="address"
+      placeholder="node address"
+      type="text"
+      required
+    />
+  </div>
+
+  <button class="btn btn-primary" type="submit">Add</button>
+</form>
 {% endblock %}

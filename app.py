@@ -32,7 +32,7 @@ def handle_index():
 @app.route("/register", methods=["GET", "POST"])
 def handle_register():
     if request.method == "POST":
-        create_wallet_resp = create_wallet()
+        create_wallet_resp = api_create_wallet()
         wallet = create_wallet_resp[0].get_json()
 
         session["user_id"] = wallet
@@ -71,18 +71,24 @@ def handle_logout():
 
 @app.route("/blockchain")
 def handle_blockchain():
-    chain = get_chain()[0].get_json()
+    chain = api_get_chain()[0].get_json()
     return render_template("blockchain.html", blockchain=chain)
 
 
 @app.route("/node", methods=["GET", "POST"])
 def handle_node():
     if request.method == "POST":
-        mine_block()
-        flash('Node was successfully mined!')
-        flash('See on Blockchain tab')
-    node = get_node()[0].get_json()
-    return render_template("node.html", transactions=node["transactions"])
+        api_add_node()
+    node = api_get_node()[0].get_json()
+    return render_template("node.html", transactions=node["transactions"], nodes=node["nodes"])
+
+
+@app.route("/node/mine", methods=["POST"])
+def handle_mine_node():
+    api_mine_block()
+    flash('Node was successfully mined!')
+    flash('See on Blockchain tab')
+    return redirect("/node")
 
 
 @app.route("/wallet")
@@ -112,41 +118,40 @@ def handle_transaction():
 
 
 @app.route("/api/node")
-def get_node():
+def api_get_node():
     return jsonify(node.to_dict()), 200
 
 
 @app.route("/api/node", methods=["POST"])
-def add_node():
-    payload = request.get_json()
-    node.add_node_address(payload["address"])
+def api_add_node():
+    node.add_node_address(request.form["address"])
     return jsonify(), 201
 
 
 @app.route("/api/node/mine", methods=["POST"])
-def mine_block():
+def api_mine_block():
     return jsonify(node.mine_block().to_dict()), 200
 
 
 @app.route("/api/chain")
-def get_chain():
+def api_get_chain():
     return jsonify([block.to_dict() for block in CHAIN]), 200
 
 
 @app.route("/api/wallet", methods=["POST"])
-def create_wallet():
+def api_create_wallet():
     return jsonify(create_new_wallet().to_dict()), 201
 
 
 @app.route("/api/search/wallet", methods=["POST"])
-def search_wallet():
+def api_search_wallet():
     payload = request.get_json()
     wallet = Wallet(payload["public_key"])
     return jsonify(wallet.financial_data), 200
 
 
 @app.route("/api/transaction", methods=["POST"])
-def submit_transaction():
+def api_submit_transaction():
     payload = request.get_json()
     trx = Transaction(payload['sender_public_key'], payload['recipient_public_key'],
                       payload['amount'], payload.get('description'))
