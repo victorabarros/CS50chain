@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "fe45448d-f8c8-4dcc-9493-5dd2dcead310",
+		"name": "cs50chain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/node",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/node",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"node"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"address\": \"http://172.17.0.5:5000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/node/address",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"node",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/node/mine",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/node/mine",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"node",
+						"mine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/search/wallet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"public_key\": \"-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjFNn0csaiugCTae/wt3H\\nXWdyMipBD9kkgc1yX6sFDsEuR8hDDBOJbNdJf/AlJrYCjC4+TC9nrkbeuJV1Yeb0\\n3pMUvmrpSstFsHqExJBrjivlDXOky5QsyNfr7oAXwMXLaLHa/4eKErkvDLmbaXLS\\nboavtd03dBVZPSnNtUVrtp8OJ5fbcIwIbPkdKZ6TDTrypH9N5g7QsKFlferSPC1J\\nmPtevLIIco7wa1CBR3vXL6UrmMhwv+k5WdHNrqP5h9yestMkGe4C/qMHVTEHzOZ2\\nyoaqf/mFjR4VSWJHa70QUB267phy0c7VxHebdrzE8/WzqWEusreADgUAlf0uvfs5\\n9wIDAQAB\\n-----END PUBLIC KEY-----\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/search/wallet",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"search",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/wallet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/wallet",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/chain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/chain",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"chain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sender_public_key\": \"-----BEGIN PUBLIC KEY-----\\\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjFNn0csaiugCTae/wt3H\\\\nXWdyMipBD9kkgc1yX6sFDsEuR8hDDBOJbNdJf/AlJrYCjC4+TC9nrkbeuJV1Yeb0\\\\n3pMUvmrpSstFsHqExJBrjivlDXOky5QsyNfr7oAXwMXLaLHa/4eKErkvDLmbaXLS\\\\nboavtd03dBVZPSnNtUVrtp8OJ5fbcIwIbPkdKZ6TDTrypH9N5g7QsKFlferSPC1J\\\\nmPtevLIIco7wa1CBR3vXL6UrmMhwv+k5WdHNrqP5h9yestMkGe4C/qMHVTEHzOZ2\\\\nyoaqf/mFjR4VSWJHa70QUB267phy0c7VxHebdrzE8/WzqWEusreADgUAlf0uvfs5\\\\n9wIDAQAB\\\\n-----END PUBLIC KEY-----\",\n  \"recipient_public_key\": \"-----BEGIN PUBLIC KEY-----\\\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArj18aqEWkBqj+e4pJD4J\\\\n0WSKZw9jHKBAmlae4NpbD+sWQlqc4M3BUE34Jr6VSZ6WBzxOmatGYJmsuvwiDLYA\\\\nqxbjOMIVqwQZKoTfgmm2pI1q4c5iY8fK9Z/sAhjoTIYaHqidFNgSKPkBiKb9JhAP\\\\nWtAR4wjXPjC2j/ZqHl0YFl39JOgB1OTgDDrkKGD9TPZzvFfoMdBPv62Ex/Xi6AA1\\\\no5xL3ip0NvL9uFSAvFbF4OvDzW5IQPmyIrQ5IknKXrL0HjFHUUFDwZMCU3qr6JLQ\\\\nf8V1UPtGw3o26Q1k2gjxx6m5yYz5h9WSSOYyTpMo+3IvyIMvLyA51EB0iipYURrO\\\\nwwIDAQAB\\\\n-----END PUBLIC KEY-----\",\n  \"amount\": 10.3,\n  \"description\": \"test1\",\n  \"sign\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJjcmVhdGVkX2F0IjoiMjAyMi0wNi0wOFQwMDoxNDowOC45MDUyMzciLCJzZW5kZXJfcHViX2tleSI6Ii0tLS0tQkVHSU4gUFVCTElDIEtFWS0tLS0tXG5NSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQWpGTm4wY3NhaXVnQ1RhZS93dDNIXG5YV2R5TWlwQkQ5a2tnYzF5WDZzRkRzRXVSOGhEREJPSmJOZEpmL0FsSnJZQ2pDNCtUQzlucmtiZXVKVjFZZWIwXG4zcE1Vdm1ycFNzdEZzSHFFeEpCcmppdmxEWE9reTVRc3lOZnI3b0FYd01YTGFMSGEvNGVLRXJrdkRMbWJhWExTXG5ib2F2dGQwM2RCVlpQU25OdFVWcnRwOE9KNWZiY0l3SWJQa2RLWjZURFRyeXBIOU41ZzdRc0tGbGZlclNQQzFKXG5tUHRldkxJSWNvN3dhMUNCUjN2WEw2VXJtTWh3ditrNVdkSE5ycVA1aDl5ZXN0TWtHZTRDL3FNSFZURUh6T1oyXG55b2FxZi9tRmpSNFZTV0pIYTcwUVVCMjY3cGh5MGM3VnhIZWJkcnpFOC9XenFXRXVzcmVBRGdVQWxmMHV2ZnM1XG45d0lEQVFBQlxuLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tIiwicmVjaXBpZW50X3B1Yl9rZXkiOiItLS0tLUJFR0lOIFBVQkxJQyBLRVktLS0tLVxuTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFyajE4YXFFV2tCcWorZTRwSkQ0SlxuMFdTS1p3OWpIS0JBbWxhZTROcGJEK3NXUWxxYzRNM0JVRTM0SnI2VlNaNldCenhPbWF0R1lKbXN1dndpRExZQVxucXhiak9NSVZxd1FaS29UZmdtbTJwSTFxNGM1aVk4Zks5Wi9zQWhqb1RJWWFIcWlkRk5nU0tQa0JpS2I5SmhBUFxuV3RBUjR3alhQakMyai9acUhsMFlGbDM5Sk9nQjFPVGdERHJrS0dEOVRQWnp2RmZvTWRCUHY2MkV4L1hpNkFBMVxubzV4TDNpcDBOdkw5dUZTQXZGYkY0T3ZEelc1SVFQbXlJclE1SWtuS1hyTDBIakZIVVVGRHdaTUNVM3FyNkpMUVxuZjhWMVVQdEd3M28yNlExazJnanh4Nm01eVl6NWg5V1NTT1l5VHBNbyszSXZ5SU12THlBNTFFQjBpaXBZVVJyT1xud3dJREFRQUJcbi0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLSIsImFtb3VudCI6MTAuMywiZGVzY3JpcHRpb24iOm51bGwsInNpZ24iOm51bGx9.MGLNk3M7Gtza-Dc78wLEHT06SsG5UAc4K0fFbiW_X0D_lmIT-Krxzj-HYTx9pDu9A3i3qthy_k9oTJM46NYJAzI1xc37pZ1J5kxZyKrqOB3jaefCyXUxWtxny7W06MQWaIdOteVFXTY0UBO4JvyIaO2vNo3uHb72L95LCCV7lD-fgMt1q0UQTgV1KVQ-_ygWvDZ8-G75hXVygDvWX7O_OO6_RUwB3vrFRWqEUIzP_oqm7yfhf5bhuKUwCcA2Siwybq6Ex_BMYSS4iIw2aLu8U1wUJDQNyxf56ZkoNzo9NiY7lSgYqZJSmyuHeCmfNht_XI6rPPHBz6cSyU-MnETEAw\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/transaction",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
