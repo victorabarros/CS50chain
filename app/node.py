@@ -12,12 +12,6 @@ class Node:
     _transactions = dict()
     _nodes = set()
 
-    def __init__(self):
-        self._nodes.add("http://172.17.0.4:5000")
-        self._nodes.add("http://172.17.0.5:5000")
-        self._nodes.add("http://172.17.0.6:5000")
-        self._nodes.add("http://172.17.0.7:5000")
-
     def submit_transaction(self, transaction: Transaction):
         jwt.decode(transaction.sign, transaction.sender_public_key,
                    algorithms=[ALGORITHM])
@@ -48,7 +42,7 @@ class Node:
 
             self._transactions.update(node._transactions)
             new_nodes.update(node._nodes)
-            # IMPROVE do asynchronously
+            # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
             requests.delete(f"{address}/api/node/transactions")
         self._nodes.update(new_nodes)
 
@@ -70,7 +64,7 @@ class Node:
 
         CHAIN.update({new_block.id: new_block})
 
-        # IMPROVE do asynchronously
+        # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
         [requests.post(f"{address}/api/chain") for address in self._nodes]
 
         new_block_dict = new_block.to_dict()
