@@ -116,6 +116,13 @@ def get_node():
     return jsonify(node.to_dict()), 200
 
 
+@app.route("/api/node", methods=["POST"])
+def add_node():
+    payload = request.get_json()
+    node.add_node_address(payload["address"])
+    return jsonify(), 201
+
+
 @app.route("/api/node/mine", methods=["POST"])
 def mine_block():
     return jsonify(node.mine_block().to_dict()), 200

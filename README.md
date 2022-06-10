@@ -35,7 +35,7 @@ Blockchain POC to CS50 final project
 Blockchain is a decentralized way to save data. In our case, as bitcoin works, the data is financial transactions.
 First is necessary the user to create their wallet that's is a pair of RSA256 keys. These will work as address to receive deposits and authenticate withdraws.
 The API in itself is an abstraction to a Node, it is a piece of the network that decentralize the blockchain. It is responsible for submitting transactions to block and mine them.
-Mine means doing a proof of work calculation and being responsible to send the new block to the blockchain.
+Mine means doing a proof of work calculation and being responsible for sending the new block to the blockchain.
 
 ## entities
 
@@ -99,14 +99,20 @@ class Block {
 
 - POST /api/wallet {}
 - POST /api/search/wallet {public_key:public_key} -> {pub_key, balance, statement}
-- GET  /api/node -> current transactions
 - GET  /api/chain -> [block]
+- GET  /api/node -> current transactions
+- POST /api/node
 - POST /api/node/mine
 - POST /api/transaction {Transaction signed}
 
 ## commands
 
 `make docker-debug`
+<!-- `make ip` -->
+
+`make docker-debug APP_NAME=cs50chain-clone PORT=5001`
+<!-- `make ip APP_NAME=cs50chain-clone` -->
+
 `make docker-test`
 
 ## references

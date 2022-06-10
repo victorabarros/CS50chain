@@ -2,6 +2,7 @@ APP_NAME=cs50chain
 APP_DIR=/${APP_NAME}/app
 DOCKER_BASE_IMAGE=python:3.10
 COMMAND?=bash
+PORT=5000
 
 # text colors
 YELLOW=\e[1m\033[33m
@@ -29,7 +30,7 @@ docker-command: remove-containers
 	@docker run -it -v $(shell pwd):${APP_DIR} -w ${APP_DIR} \
 		--name ${APP_NAME} \
 		--env-file .env \
-		-p 5000:5000 \
+		-p ${PORT}:5000 \
 		${DOCKER_BASE_IMAGE} bash -c "\
 			python3 -m pip install --upgrade pip && \
 			pip3 install -r requirements.txt && \
