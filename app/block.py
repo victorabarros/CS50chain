@@ -31,22 +31,6 @@ class Block:
     def to_dict(self):
         return {**self._internal_to_dict(), 'hash': self.hash}
 
-    @staticmethod
-    def from_dict(**kwargs):
-        kwargs["created_at"] = datetime.fromisoformat(kwargs["created_at"])
-
-        if (kwargs["data"].get("transactions")):
-            kwargs["data"]["transactions"] = [Transaction.from_dict(
-                **trx) for trx in kwargs["data"]["transactions"]]
-
-        b = Block()
-        b._id = kwargs["id"]
-        b._created_at = kwargs["created_at"]
-        b._hash = kwargs["hash"]
-        b._nonce = kwargs["nonce"]
-        b._data = kwargs["data"]
-        return b
-
     @property
     def hash(self):
         if self._hash:
