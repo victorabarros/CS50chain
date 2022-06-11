@@ -34,22 +34,30 @@ class Node:
     def _sync_transactions(self):
         new_nodes = set()
         for address in self._nodes:
-            resp = requests.get(f"{address}/api/node")
-            if not resp.ok:
-                continue
-            payload = resp.json()
-            node = Node.from_dict(**payload)
+            try:
+                resp = requests.get(f"{address}/api/node")
+                if not resp.ok:
+                    continue
+                payload = resp.json()
+                node = Node.from_dict(**payload)
 
-            self._transactions.update(node._transactions)
-            new_nodes.update(node._nodes)
-            # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
-            requests.delete(f"{address}/api/node/transactions")
+                self._transactions.update(node._transactions)
+                new_nodes.update(node._nodes)
+                # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
+                requests.delete(f"{address}/api/node/transactions")
+            except Exception as e:
+                print(e)
+                continue
         self._nodes.update(new_nodes)
 
     def sync_blockchain(self):
         for address in self._nodes:
-            resp = requests.get(f"{address}/api/chain")
-            if not resp.ok:
+            try:
+                resp = requests.get(f"{address}/api/chain")
+                if not resp.ok:
+                    continue
+            except Exception as e:
+                print(e)
                 continue
             payload = resp.json()
             for block in payload:
