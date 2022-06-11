@@ -32,7 +32,6 @@ docker-command: remove-containers
 		--env-file .env \
 		-p ${PORT}:5000 \
 		${DOCKER_BASE_IMAGE} bash -c "\
-			python3 -m pip install --upgrade pip && \
 			pip3 install -r requirements.txt && \
 			${COMMAND}"
 
@@ -40,11 +39,13 @@ docker-debug: welcome
 	@echo "${YELLOW}debug mode${COLOR_OFF}"
 	@make docker-command
 
+docker-run: welcome
+	@echo "${YELLOW}running app${COLOR_OFF}"
+	@make docker-command COMMAND="python3 app.py"
+
 docker-test: welcome
-	@echo "${YELLOW}tests${COLOR_OFF}"
-	@make docker-command COMMAND="\
-		pip3 install -r requirements.txt && \
-		python3 -m unittest -v"
+	@echo "${YELLOW}testing app${COLOR_OFF}"
+	@make docker-command APP_NAME=${APP_NAME}-test PORT=4999 COMMAND="python3 -m unittest -v"
 
 ip:
 	@docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${APP_NAME}
