@@ -5,8 +5,54 @@ import json
 from app.block import CHAIN, validate_nonce
 from app.config import ALGORITHM, INITIAL_BALANCE
 from app.transaction import Transaction
-from app.node import node
-from app.wallet import create_new_wallet
+from app.node import Node, node
+from app.wallet import create_new_wallet, generate_pair_key
+
+
+class TestNode(unittest.TestCase):
+    def test_init_node(self):
+        _node = Node()
+        self.assertEqual(len(_node._transactions), 0)
+        self.assertEqual(len(_node._transactions), len(_node.transactions))
+        self.assertEqual(len(_node._nodes), 0)
+
+    def test_submit_transaction(self):
+        _node = Node()
+        sender = generate_pair_key()
+        recipient = generate_pair_key()
+        transaction = Transaction(sender["public_key"],
+                                  recipient["public_key"], 16.58, "test")
+
+        with self.assertRaises(jwt.exceptions.DecodeError):
+            # must fail, because the transaction is not signed
+            _node.submit_transaction(transaction)
+
+        transaction_signed = transaction.do_sign(sender["private_key"])
+        self.assertEqual(id(transaction_signed), id(transaction))
+
+        _node.submit_transaction(transaction)
+
+        self.assertEqual(len(_node._transactions), 1)
+        self.assertEqual(len(_node._transactions), len(_node.transactions))
+
+        transactions_filtered_from_node = filter(
+            lambda _transaction: transaction.sign == _transaction.sign, _node.transactions)
+
+        transactions_from_node = list(
+            t for t in transactions_filtered_from_node)
+        self.assertEqual(list(transactions_from_node)
+                         [0].sign, transaction.sign)
+
+    def test_mine_block(self):
+        _node = Node()
+        sender = generate_pair_key()
+        recipient = generate_pair_key()
+        transaction = Transaction(sender["public_key"],
+                                  recipient["public_key"], 16.58, "test")\
+            .do_sign(sender["private_key"])
+
+        _node.submit_transaction(transaction)
+        _node.mine_block()
 
 
 class TestApp(unittest.TestCase):
