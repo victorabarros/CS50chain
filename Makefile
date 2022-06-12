@@ -35,6 +35,14 @@ docker-command: remove-containers
 			pip3 install -r requirements.txt && \
 			${COMMAND}"
 
+docker-migration: welcome
+	@docker run -it \
+		-v $(shell pwd):/root/db --workdir /root/db \
+		--rm \
+		--name sqlite \
+		nouchka/sqlite3 \
+		database.db -init migration/20220612034805__create_blockchain_table.sql
+
 docker-debug: welcome
 	@echo "${BOLD_YELLOW}debug mode${COLOR_OFF}"
 	@make docker-command
