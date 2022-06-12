@@ -102,6 +102,11 @@ def handle_transaction():
     transaction = None
     if request.method == "POST":
         recipient_public_key = request.form["recipient_public_key"]
+        recipient_public_key = "{}{}{}".format(
+            recipient_public_key[:26],
+            recipient_public_key[26:-24].replace(" ", "\n"),
+            recipient_public_key[-24:]
+        )
         amount = int(request.form["amount"])
         description = request.form["description"] or None
 
@@ -165,7 +170,8 @@ def api_search_wallet():
 @app.route("/api/transaction", methods=["POST"])
 def api_submit_transaction():
     payload = request.get_json()
-    trx = Transaction(payload['sender_public_key'], payload['recipient_public_key'],
+    trx = Transaction(payload['sender_public_key'].replace("\\n", "\n"),
+                      payload['recipient_public_key'].replace("\\n", "\n"),
                       payload['amount'], payload.get('description'))
 
     trx.sign = payload['sign']

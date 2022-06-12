@@ -37,22 +37,24 @@ class Wallet:
 
     @property
     def financial_data(self):
-        return {
-            "balance": self._balance(),
+        resp = {
             "statement": self._statement(),
             "pending": self._node_transactions(),
         }
+        resp["balance"] = self._balance(resp["statement"])
 
-    def _balance(self):
+        return resp
+
+    def _balance(self, statement_dict):
         withdraw = 0
         deposit = 0
-        for block in CHAIN.values():
-            transactions = block.data.get("transactions", [])
-            for transaction in transactions:
-                if transaction.sender_public_key == self.public_key:
-                    withdraw += transaction.amount
-                if transaction.recipient_public_key == self.public_key:
-                    deposit += transaction.amount
+
+        for transaction in statement_dict:
+            if transaction["sender_public_key"] == self.public_key:
+                withdraw += transaction["amount"]
+            if transaction["recipient_public_key"] == self.public_key:
+                deposit += transaction["amount"]
+
         return deposit - withdraw
 
     def _statement(self):

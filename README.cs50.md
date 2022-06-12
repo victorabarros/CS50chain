@@ -17,3 +17,5 @@ The API in itself is an abstraction to a node, it has its own blockchain data cl
 The node aggregates transactions and after a few minutes it will start a process called mining where it'll calculate the nonce of the previous block based on the Proof of Work algorithm ([here](./app/block.py)). Once nonce is calculated, this node is authorized to submit a new block to the blockchain.
 
 For a user to be able to submit transactions to the node first is necessary to create their wallet. The wallet is defined basically as a pair of RSA256 keys, aka public and private keys. The public key is the wallet address where other users can deposit money and the private key is used to sign withdrawals. It's possible see the wallet class [here](./app/wallet.py) and the transaction class [here](./app/transaction.py). Beyond these properties, the wallet class is responsible for processing transactions from the blockchain to calculate the wallet's balance and statement.
+
+See more details in https://github.com/victorabarros/CS50chain#this-is-cs50chain
