@@ -38,7 +38,7 @@ class Node:
     def _sync_transactions(self):
         new_nodes = set()
         # IMPROVE do asynchronously/parallel https://docs.python.org/3/library/asyncio-task.html
-        for address in self._nodes:
+        for address in list(self._nodes):
             try:
                 resp = requests.get(f"{address}/api/node")
                 if not resp.ok:
