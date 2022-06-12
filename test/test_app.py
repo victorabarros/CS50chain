@@ -14,7 +14,8 @@ class TestNode(unittest.TestCase):
         _node = Node()
         self.assertEqual(len(_node._transactions), 0)
         self.assertEqual(len(_node._transactions), len(_node.transactions))
-        self.assertEqual(len(_node._nodes), 0)
+        # self.assertEqual(len(_node._nodes), 0)
+        self.assertEqual(len(_node._nodes), len(_node.nodes))
 
     def test_submit_transaction(self):
         _node = Node()
@@ -32,8 +33,7 @@ class TestNode(unittest.TestCase):
 
         _node.submit_transaction(transaction)
 
-        self.assertEqual(len(_node._transactions), 1)
-        self.assertEqual(len(_node._transactions), len(_node.transactions))
+        self.assertEqual(len(_node.transactions), 1)
 
         transactions_filtered_from_node = filter(
             lambda _transaction: transaction.sign == _transaction.sign, _node.transactions)
@@ -43,8 +43,16 @@ class TestNode(unittest.TestCase):
         self.assertEqual(list(transactions_from_node)
                          [0].sign, transaction.sign)
 
+    def test_add_address(self):
+        _node = Node()
+        second_node_address = "http://foo.bar"
+        _node.add_node_address(second_node_address)
+        self.assertEqual(len(_node._nodes), 1)
+
     def test_mine_block(self):
         _node = Node()
+        _node.mine_block()  # to clear block
+
         sender = generate_pair_key()
         recipient = generate_pair_key()
         transaction = Transaction(sender["public_key"],
@@ -52,7 +60,50 @@ class TestNode(unittest.TestCase):
             .do_sign(sender["private_key"])
 
         _node.submit_transaction(transaction)
-        _node.mine_block()
+        new_block = _node.mine_block()
+        last_block = CHAIN[len(CHAIN)-1]
+        self.assertEqual(id(last_block), id(new_block))
+
+        block_transactions = last_block.data.get("transactions", [])
+
+        self.assertEqual(len(block_transactions), 1)
+
+        transaction_from_chain = block_transactions[0]
+        self.assertEqual(id(transaction_from_chain), id(transaction))
+
+    def test_clear_transactions(self):
+        _node = Node()
+        _node.clear_transactions()
+        self.assertEqual(len(_node.transactions), 0)
+
+        sender = generate_pair_key()
+        recipient = generate_pair_key()
+        transaction = Transaction(sender["public_key"],
+                                  recipient["public_key"], 16.58, "test")\
+            .do_sign(sender["private_key"])
+
+        _node.submit_transaction(transaction)
+        self.assertEqual(len(_node.transactions), 1)
+        _node.clear_transactions()
+        self.assertEqual(len(_node.transactions), 0)
+
+    # def test_to_dict(self):
+    #     _node = Node()
+    #     _node.clear_transactions()
+    #     self.assertEqual(len(_node.transactions), 0)
+
+    #     sender = generate_pair_key()
+    #     recipient = generate_pair_key()
+    #     transaction = Transaction(sender["public_key"],
+    #                               recipient["public_key"], 16.58, "test")\
+    #         .do_sign(sender["private_key"])
+
+    #     _node.submit_transaction(transaction)
+
+    #     second_node_address = "http://foo.bar"
+
+    #     _node.add_node_address(second_node_address)
+    #     # for address in _node.
 
 
 class TestApp(unittest.TestCase):
