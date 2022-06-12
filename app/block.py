@@ -2,12 +2,10 @@ import hashlib
 import json
 from datetime import datetime
 from typing import Dict
-from cs50 import SQL
 
 from app.config import DATABASE_URL, NONCE_VALIDATION_DIFFICULTY
+from app.database import DB
 from app.transaction import Transaction
-
-db = SQL(DATABASE_URL)
 
 
 class Block:
@@ -109,14 +107,15 @@ class Blockchain:
         for block in id_block.values():
             row = block.to_dict()
             row["data"] = json.dumps(row["data"])
-            db.execute("INSERT INTO blockchain (id, data, hash, nonce, created_at) VALUES(?, ?, ?, ?, ?)",
+            # IMPROVE insert asynchronously
+            DB.execute("INSERT INTO blockchain (id, data, hash, nonce, created_at) VALUES(?, ?, ?, ?, ?)",
                        row["id"], row["data"], row["hash"], row["nonce"], row["created_at"])
 
         return self._chain.update(id_block)
 
     @classmethod
     def load_chain(cls):
-        rows = db.execute("select * from blockchain")
+        rows = DB.execute("select * from blockchain")
         for block in rows:
             block["data"] = json.loads(block["data"])
             cls._chain.update({block["id"]: Block.from_dict(**block)})

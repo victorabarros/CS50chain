@@ -1,4 +1,3 @@
-<!-- TODO check typos -->
 <!-- COMPLETE:
 #### Video Demo:  <URL HERE>
 <present your project to the world, as with slides, screenshots, voiceover, and/or live action. Your video should somehow include your project’s title, your name, your city and country, and any other details that you’d like to convey to viewers>
@@ -12,7 +11,7 @@ https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
 
 # This is CS50chain
 
-Blockchain POC to CS50 final project
+Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
 
 <details open>
   <summary>content</summary>
@@ -96,6 +95,7 @@ class Block {
 ## usage
 
 To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
+If you desire to persist data with sqlite, run `make docker-migration`.
 To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
 
 To run tests `make docker-test`. Following results:
