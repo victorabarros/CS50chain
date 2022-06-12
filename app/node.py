@@ -41,6 +41,7 @@ class Node:
 
     def _sync_transactions(self):
         new_nodes = set()
+        # IMPROVE do asynchronously/parallel https://docs.python.org/3/library/asyncio-task.html
         for address in self._nodes:
             try:
                 resp = requests.get(f"{address}/api/node")
@@ -51,7 +52,7 @@ class Node:
 
                 self._transactions.update(node._transactions)
                 new_nodes.update(node._nodes)
-                # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
+                # IMPROVE do asynchronously and don't need wait response
                 requests.delete(f"{address}/api/node/transactions")
             except Exception as e:
                 print(e)
@@ -59,6 +60,7 @@ class Node:
         self._nodes.update(new_nodes)
 
     def sync_blockchain(self):
+        # IMPROVE do asynchronously/parallel https://docs.python.org/3/library/asyncio-task.html
         for address in self._nodes:
             try:
                 resp = requests.get(f"{address}/api/chain")
@@ -80,7 +82,7 @@ class Node:
 
         CHAIN.update({new_block.id: new_block})
 
-        # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
+        # IMPROVE do asynchronously, don't need wait answer https://docs.python.org/3/library/asyncio-task.html
         for address in self._nodes:
             try:
                 requests.post(f"{address}/api/chain")

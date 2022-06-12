@@ -14,7 +14,6 @@ class TestNode(unittest.TestCase):
         _node = Node()
         self.assertEqual(len(_node._transactions), 0)
         self.assertEqual(len(_node._transactions), len(_node.transactions))
-        # self.assertEqual(len(_node._nodes), 0)
         self.assertEqual(len(_node._nodes), len(_node.nodes))
 
     def test_submit_transaction(self):
@@ -45,9 +44,16 @@ class TestNode(unittest.TestCase):
 
     def test_add_address(self):
         _node = Node()
-        second_node_address = "http://foo.bar"
-        _node.add_node_address(second_node_address)
-        self.assertEqual(len(_node._nodes), 1)
+        _second_node_address = "http://foo.bar"
+        _node.add_node_address(_second_node_address)
+        self.assertEqual(len(_node.nodes), 1)
+        nodes = list(n for n in _node.nodes)
+        self.assertEqual(nodes[0], _second_node_address)
+
+        # can't add the same
+        _node.add_node_address(_second_node_address)
+        self.assertEqual(len(_node.nodes), 1)
+        # self.assertEqual(len(Node().nodes), 0)  # TODO WHY IS FAILING?????
 
     def test_mine_block(self):
         _node = Node()
@@ -87,23 +93,37 @@ class TestNode(unittest.TestCase):
         _node.clear_transactions()
         self.assertEqual(len(_node.transactions), 0)
 
-    # def test_to_dict(self):
-    #     _node = Node()
-    #     _node.clear_transactions()
-    #     self.assertEqual(len(_node.transactions), 0)
+    def test_to_dict(self):
+        _node = Node()
+        _node.clear_transactions()
+        self.assertEqual(len(_node.transactions), 0)
 
-    #     sender = generate_pair_key()
-    #     recipient = generate_pair_key()
-    #     transaction = Transaction(sender["public_key"],
-    #                               recipient["public_key"], 16.58, "test")\
-    #         .do_sign(sender["private_key"])
+        sender = generate_pair_key()
+        recipient = generate_pair_key()
 
-    #     _node.submit_transaction(transaction)
+        _node.submit_transaction(
+            Transaction(sender["public_key"],
+                        recipient["public_key"], 16.58, "test")
+            .do_sign(sender["private_key"]))
 
-    #     second_node_address = "http://foo.bar"
+        _node.add_node_address("http://bar.foo")
 
-    #     _node.add_node_address(second_node_address)
-    #     # for address in _node.
+        _node_dict = _node.to_dict()
+
+        for idx, address in enumerate(_node.nodes):
+            self.assertEqual(address, _node_dict["nodes"][idx])
+
+        for idx, trasaction in enumerate(_node.transactions):
+            self.assertEqual(
+                trasaction.sign, _node_dict["transactions"][idx]["sign"])
+            self.assertEqual(trasaction.sender_public_key,
+                             _node_dict["transactions"][idx]["sender_public_key"])
+            self.assertEqual(trasaction.recipient_public_key,
+                             _node_dict["transactions"][idx]["recipient_public_key"])
+            self.assertEqual(trasaction.amount,
+                             _node_dict["transactions"][idx]["amount"])
+            self.assertEqual(trasaction.description,
+                             _node_dict["transactions"][idx]["description"])
 
 
 class TestApp(unittest.TestCase):
