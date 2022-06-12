@@ -12,15 +12,23 @@ class Node:
     _transactions = dict()
     _nodes = set()
 
+    @property
+    def transactions(self):
+        return self._transactions.values()
+
+    @property
+    def nodes(self):
+        return self._nodes
+
     def submit_transaction(self, transaction: Transaction):
         jwt.decode(transaction.sign, transaction.sender_public_key,
                    algorithms=[ALGORITHM])
 
         self._transactions.update({transaction.sign: transaction})
 
-    @property
-    def transactions(self):
-        return self._transactions.values()
+    def add_node_address(self, address):
+        # IMPROVE check if url is valid; use regex
+        self._nodes.add(address)
 
     def sync(self):
         self._sync_transactions()
@@ -67,13 +75,18 @@ class Node:
 
     def mine_block(self):
         self.sync()
-        new_block = Block({'transactions': list(self._transactions.values())})
+        new_block = Block({"transactions": list(self._transactions.values())})
         self.clear_transactions()
 
         CHAIN.update({new_block.id: new_block})
 
         # IMPROVE do asynchronously https://docs.python.org/3/library/asyncio-task.html
-        [requests.post(f"{address}/api/chain") for address in self._nodes]
+        for address in self._nodes:
+            try:
+                requests.post(f"{address}/api/chain")
+            except Exception as e:
+                print(e)
+                continue
 
         new_block_dict = new_block.to_dict()
         new_block_dict["data"] = json.dumps(new_block_dict["data"])
@@ -85,7 +98,7 @@ class Node:
 
     def to_dict(self):
         return {
-            'transactions': [trx.to_dict() for trx in self.transactions],
+            "transactions": [trx.to_dict() for trx in self.transactions],
             "nodes": list(self._nodes)
         }
 
@@ -98,10 +111,6 @@ class Node:
          for trx in kwargs["transactions"]]
 
         return n
-
-    def add_node_address(self, address):
-        # IMPROVE check if url is valid; use regex
-        self._nodes.add(address)
 
 
 node = Node()
