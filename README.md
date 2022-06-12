@@ -95,7 +95,7 @@ class Block {
 ## usage
 
 To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
-If you desire to persist data with sqlite, run `make docker-migration`.
+If you want to persist data with sqlite, run `make docker-migration`.
 To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
 
 To run tests `make docker-test`. Following results:
