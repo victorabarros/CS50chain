@@ -4,13 +4,13 @@ DOCKER_BASE_IMAGE=python:3.10
 COMMAND?=bash
 PORT=5000
 
-# text colors
-YELLOW=\e[1m\033[33m
-COLOR_OFF=\e[0m
+# text colors https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+BOLD_YELLOW=\033[1;33m
+COLOR_OFF=\033[0m
 
 welcome:
 	@clear
-	@echo "${YELLOW}"
+	@echo "${BOLD_YELLOW}"
 	@echo " ██████╗ ██████╗███████╗ ██████╗  ██████╗██╗  ██╗ █████╗ ██╗███╗   ██╗" && sleep .02
 	@echo "██╔════╝██╔════╝██╔════╝██╔═████╗██╔════╝██║  ██║██╔══██╗██║████╗  ██║" && sleep .02
 	@echo "██║     ███████╗███████╗██║██╔██║██║     ███████║███████║██║██╔██╗ ██║" && sleep .02
@@ -22,7 +22,7 @@ welcome:
 
 remove-containers:
 ifneq ($(shell docker ps -a --filter "name=${APP_NAME}" -aq 2> /dev/null | wc -l | bc), 0)
-	@echo "${YELLOW}removing containers${COLOR_OFF}"
+	@echo "${BOLD_YELLOW}removing containers${COLOR_OFF}"
 	@docker ps -a --filter "name=${APP_NAME}" -aq | xargs docker rm -f
 endif
 
@@ -36,16 +36,22 @@ docker-command: remove-containers
 			${COMMAND}"
 
 docker-debug: welcome
-	@echo "${YELLOW}debug mode${COLOR_OFF}"
+	@echo "${BOLD_YELLOW}debug mode${COLOR_OFF}"
 	@make docker-command
 
 docker-run: welcome
-	@echo "${YELLOW}running app${COLOR_OFF}"
+	@echo "${BOLD_YELLOW}running app${COLOR_OFF}"
 	@make docker-command COMMAND="python3 app.py"
 
 docker-test: welcome
-	@echo "${YELLOW}testing app${COLOR_OFF}"
-	@make docker-command APP_NAME=${APP_NAME}-test PORT=4999 COMMAND="python3 -m unittest -v"
+	@echo "${BOLD_YELLOW}testing app${COLOR_OFF}"
+	@make docker-command \
+		APP_NAME=${APP_NAME}-test \
+		PORT=4999 \
+		COMMAND="coverage run -m unittest discover && \
+			coverage report && \
+			coverage html"
+	@echo "${BOLD_YELLOW}coverage report at htmlcov/index.html${COLOR_OFF}"
 
 ip:
-	@docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${APP_NAME}
+	@docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${APP_NAME}

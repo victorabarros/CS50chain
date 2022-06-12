@@ -121,6 +121,22 @@ To run another node to mock transactions and sync between them, use `make docker
 
 To run tests `make docker-test`.
 
+Results at **Jun 6 2022**
+```txt
+Coverage report: 90%
+coverage.py v6.4.1, created at 2022-06-12 01:02 +0000
+```
+
+_Module_|_statements_|_missing_|_excluded_|_coverage_
+-|-|-|-|-
+app/block.py|64|10|0|84%
+app/config.py|7|0|0|100%
+app/node.py|80|17|0|79%
+app/transaction.py|55|9|0|84%
+app/wallet.py|54|1|0|98%
+test/test_app.py|117|1|0|99%
+**Total**|**377**|**38**|**0**|**90%**
+
 ## acknowledgments
 <!-- TODO send coments to this articles saying they were importante to this project-->
 
@@ -140,6 +156,7 @@ To run tests `make docker-test`.
   - [ ] clickable link to expand with complete object
 - documentation
   - [ ] add swagger
+  - [ ] codeclimate
 - online
   - [ ] deploy app
   - [ ] save blockchain on heroku postgresql

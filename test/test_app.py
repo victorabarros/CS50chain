@@ -131,7 +131,7 @@ class TestApp(unittest.TestCase):
     # IMPROVE split this test into smaller tests
     # IMPROVE add node address test
 
-    def test_transaction(self):
+    def test_all(self):
         sender = create_new_wallet()
         recipient = create_new_wallet()
 
