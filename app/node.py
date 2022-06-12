@@ -3,7 +3,8 @@ import json
 
 import requests
 
-from app.block import CHAIN, Block
+from app.block import Block
+from app.blockchain import CHAIN
 from app.config import ALGORITHM
 from app.transaction import Transaction
 

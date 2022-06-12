@@ -5,6 +5,7 @@ from typing import Dict
 
 from app.config import NONCE_VALIDATION_DIFFICULTY
 from app.transaction import Transaction
+from app.blockchain import CHAIN
 
 
 class Block:
@@ -88,6 +89,3 @@ def validate_nonce(previous_block_hash, nonce):
     guess = (f"{previous_block_hash}{nonce}").encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     return guess_hash.startswith("0" * NONCE_VALIDATION_DIFFICULTY)
-
-
-CHAIN: Dict[int, Block] = dict()

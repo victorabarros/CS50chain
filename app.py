@@ -1,8 +1,9 @@
 import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 
-from app.config import INITIAL_BALANCE
-from app.block import CHAIN
+from app.config import INITIAL_BALANCE, PORT
+from app.block import Block
+from app.blockchain import CHAIN
 from app.transaction import Transaction
 from app.wallet import Wallet, create_new_wallet
 from app.node import node
@@ -176,4 +177,6 @@ def api_submit_transaction():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    if (len(CHAIN)) == 0:
+        CHAIN.update({0: Block()})
+    app.run(host="0.0.0.0", port=PORT, debug=True)

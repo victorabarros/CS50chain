@@ -2,7 +2,7 @@ from datetime import datetime
 from Crypto.PublicKey import RSA
 
 from app.config import BITS, INITIAL_BALANCE, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
-from app.block import CHAIN
+from app.blockchain import CHAIN
 from app.node import node
 from app.transaction import Transaction
 

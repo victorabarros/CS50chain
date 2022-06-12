@@ -2,7 +2,8 @@ import jwt
 import unittest
 import json
 
-from app.block import CHAIN, validate_nonce
+from app.block import CHAIN
+from app.block import validate_nonce
 from app.config import ALGORITHM, INITIAL_BALANCE
 from app.transaction import Transaction
 from app.node import Node, node
