@@ -10,15 +10,15 @@ from app.transaction import Transaction
 
 class Block:
     _id = None
-    _created_at = None
     _data = None
-    _nonce = None
     _hash = None
+    _nonce = None
+    _created_at = None
 
     def __init__(self, data={}):
+        self._created_at = datetime.utcnow()
         blockchain_len = len(CHAIN)
         self._id = blockchain_len
-        self._created_at = datetime.utcnow()
         self._data = data
         if blockchain_len > 0:
             self._nonce = run_proof_of_work(CHAIN[blockchain_len-1].hash)

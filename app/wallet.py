@@ -25,6 +25,9 @@ def _set_initial_balance(wallet):
 
 
 class Wallet:
+    _public_key = None
+    _private_key = None
+    created_at = None
 
     def __init__(self, public_key, private_key=None):
         self.created_at = datetime.utcnow()

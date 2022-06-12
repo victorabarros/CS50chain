@@ -6,12 +6,12 @@ from app.config import ALGORITHM
 
 class Transaction:
     # IMPROVE add enum status (pending on node and accepted on chain)
-    _sign = None
-    _created_at = None
     _sender_public_key = None
     _recipient_public_key = None
     _amount = None
     _description = None
+    _sign = None
+    _created_at = None
 
     def __init__(self, sender_public_key: str, recipient_public_key: str, amount: float, description: str = None, **kwargs):
         self._created_at = datetime.utcnow()

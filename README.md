@@ -45,21 +45,22 @@ class Wallet {
 }
 
 class Transaction {
-    sender_wallet_public_key
-    recipient_wallet_public_key
+    sender_public_key
+    recipient_public_key
     amount
     description
     sign
     created_at
-    do_sign()
+    do_sign(sender_private_key)
 }
 
 class Node {
     transactions
     nodes
-    submit_transaction()
-    mine_block()
+    submit_transaction(transaction)
+    add_node_address(address)
     sync()
+    mine_block()
 }
 
 class Block {
@@ -88,7 +89,7 @@ class Block {
 - POST /api/wallet
   - create new wallet
 - POST /api/search/wallet
-  - get wallet search
+  - wallet search
 - POST /api/transaction
   - submit transaction to node
 
@@ -105,16 +106,16 @@ Jun 12 2022
 Name                 Stmts   Miss  Cover
 ----------------------------------------
 app/__init__.py          0      0   100%
-app/block.py            64     10    84%
-app/config.py            7      0   100%
-app/node.py             80     17    79%
+app/block.py            85     44    48%
+app/config.py            8      0   100%
+app/database.py         15      4    73%
+app/node.py             77     46    40%
 app/transaction.py      55      9    84%
-app/wallet.py           54      1    98%
+app/wallet.py           58      9    84%
 test/__init__.py         0      0   100%
-test/test_app.py       117      1    99%
+test/test_app.py        99      0   100%
 ----------------------------------------
-TOTAL                  377     38    90%
-Coverage report: 90%
+TOTAL                  397    112    72%
 ```
 
 ## acknowledgments
