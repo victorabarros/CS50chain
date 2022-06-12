@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, render_template, redirect, flash, ses
 from app.config import INITIAL_BALANCE, PORT
 from app.block import CHAIN, Blockchain
 from app.transaction import Transaction
-from app.wallet import Wallet, create_new_wallet
+from app.wallet import Wallet
 from app.node import NODE
 
 app = Flask(__name__)
@@ -152,7 +152,7 @@ def sync_chain():
 
 @app.route("/api/wallet", methods=["POST"])
 def api_create_wallet():
-    return jsonify(create_new_wallet().to_dict()), 201
+    return jsonify(Wallet.new().to_dict()), 201
 
 
 @app.route("/api/search/wallet", methods=["POST"])

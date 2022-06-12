@@ -7,6 +7,23 @@ from app.node import NODE
 from app.transaction import Transaction
 
 
+def generate_pair_key():
+    rsa = RSA.generate(BITS)
+    return {
+        "private_key": rsa.export_key().decode(),
+        "public_key": rsa.publickey().export_key().decode(),
+    }
+
+
+def _set_initial_balance(wallet):
+    trx = Transaction(UNIVERSAL_PUBLIC_KEY, wallet.public_key,
+                      INITIAL_BALANCE, "Initial balance")
+
+    trx.do_sign(UNIVERSAL_PRIVATE_KEY)
+
+    NODE.submit_transaction(trx)
+
+
 class Wallet:
 
     def __init__(self, public_key, private_key=None):
@@ -74,25 +91,8 @@ class Wallet:
             "private_key": self.private_key,
         }
 
-
-def generate_pair_key():
-    rsa = RSA.generate(BITS)
-    return {
-        "private_key": rsa.export_key().decode(),
-        "public_key": rsa.publickey().export_key().decode(),
-    }
-
-
-def _set_initial_balance(wallet):
-    trx = Transaction(UNIVERSAL_PUBLIC_KEY, wallet.public_key,
-                      INITIAL_BALANCE, "Initial balance")
-
-    trx.do_sign(UNIVERSAL_PRIVATE_KEY)
-
-    NODE.submit_transaction(trx)
-
-
-def create_new_wallet():
-    wallet = Wallet(**generate_pair_key())
-    _set_initial_balance(wallet)
-    return wallet
+    @staticmethod
+    def new():
+        wallet = Wallet(**generate_pair_key())
+        _set_initial_balance(wallet)
+        return wallet

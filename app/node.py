@@ -31,13 +31,9 @@ class Node:
         self._nodes.add(address)
 
     def sync(self):
+        # IMPROVE grpc https://grpc.io/docs/languages/python/basics/
         self._sync_transactions()
         self.sync_blockchain()
-        # IMPROVE grpc https://grpc.io/docs/languages/python/basics/
-
-        if len(CHAIN) == 0:
-            CHAIN.update({0: Block()})
-            return
 
     def _sync_transactions(self):
         new_nodes = set()
@@ -78,9 +74,10 @@ class Node:
     def mine_block(self):
         self.sync()
         new_block = Block({"transactions": list(self._transactions.values())})
-        self.clear_transactions()
 
         CHAIN.update({new_block.id: new_block})
+
+        self.clear_transactions()
 
         # IMPROVE do asynchronously, don't need wait answer https://docs.python.org/3/library/asyncio-task.html
         for address in self._nodes:
