@@ -3,8 +3,7 @@ import json
 
 import requests
 
-from app.block import Block
-from app.blockchain import CHAIN
+from app.block import Block, CHAIN
 from app.config import ALGORITHM
 from app.transaction import Transaction
 
@@ -116,4 +115,4 @@ class Node:
         return n
 
 
-node = Node()
+NODE = Node()

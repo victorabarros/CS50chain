@@ -2,8 +2,8 @@ from datetime import datetime
 from Crypto.PublicKey import RSA
 
 from app.config import BITS, INITIAL_BALANCE, UNIVERSAL_PRIVATE_KEY, UNIVERSAL_PUBLIC_KEY
-from app.blockchain import CHAIN
-from app.node import node
+from app.block import CHAIN
+from app.node import NODE
 from app.transaction import Transaction
 
 
@@ -55,7 +55,7 @@ class Wallet:
             filter(lambda transaction:
                    self.public_key in (
                        transaction.sender_public_key, transaction.recipient_public_key),
-                   node.transactions)
+                   NODE.transactions)
 
         return list(trx.to_dict() for trx in pending_transactions)
 
@@ -89,7 +89,7 @@ def _set_initial_balance(wallet):
 
     trx.do_sign(UNIVERSAL_PRIVATE_KEY)
 
-    node.submit_transaction(trx)
+    NODE.submit_transaction(trx)
 
 
 def create_new_wallet():

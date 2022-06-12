@@ -2,11 +2,10 @@ import json
 from flask import Flask, request, jsonify, render_template, redirect, flash, session
 
 from app.config import INITIAL_BALANCE, PORT
-from app.block import Block
-from app.blockchain import CHAIN
+from app.block import Block, CHAIN
 from app.transaction import Transaction
 from app.wallet import Wallet, create_new_wallet
-from app.node import node
+from app.node import NODE
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -109,7 +108,7 @@ def handle_transaction():
 
         trx = Transaction(
             session["user_id"]["public_key"], recipient_public_key, amount, description)
-        node.submit_transaction(trx.do_sign(
+        NODE.submit_transaction(trx.do_sign(
             session["user_id"]["private_key"]))
         transaction = trx.to_dict()
         flash('Transaction was successfully submitted!')
@@ -120,25 +119,25 @@ def handle_transaction():
 
 @app.route("/api/node")
 def api_get_node():
-    return jsonify(node.to_dict()), 200
+    return jsonify(NODE.to_dict()), 200
 
 
 @app.route("/api/node/address", methods=["POST"])
 def api_add_node_address():
     address = request.form.get("address") or request.get_json().get("address")
-    node.add_node_address(address)
+    NODE.add_node_address(address)
     return jsonify(), 201
 
 
 @app.route("/api/node/transactions", methods=["DELETE"])
 def api_clear_node_transactions():
-    node.clear_transactions()
+    NODE.clear_transactions()
     return jsonify(), 200
 
 
 @app.route("/api/node/mine", methods=["POST"])
 def api_mine_block():
-    return jsonify(node.mine_block().to_dict()), 200
+    return jsonify(NODE.mine_block().to_dict()), 200
 
 
 @app.route("/api/chain")
@@ -148,7 +147,7 @@ def api_get_chain():
 
 @app.route("/api/chain", methods=["POST"])
 def sync_chain():
-    node.sync_blockchain()
+    NODE.sync_blockchain()
     return jsonify(), 200
 
 
@@ -171,12 +170,13 @@ def api_submit_transaction():
                       payload['amount'], payload.get('description'))
 
     trx.sign = payload['sign']
-    node.submit_transaction(trx)
+    NODE.submit_transaction(trx)
 
     return jsonify(trx.to_dict()), 201
 
 
 if __name__ == "__main__":
+    NODE.sync()
     if (len(CHAIN)) == 0:
         CHAIN.update({0: Block()})
     app.run(host="0.0.0.0", port=PORT, debug=True)

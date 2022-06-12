@@ -2,10 +2,12 @@ import hashlib
 import json
 from datetime import datetime
 from typing import Dict
+from cs50 import SQL
 
-from app.config import NONCE_VALIDATION_DIFFICULTY
+from app.config import DATABASE_URL, NONCE_VALIDATION_DIFFICULTY
 from app.transaction import Transaction
-from app.blockchain import CHAIN
+
+db = SQL(DATABASE_URL)
 
 
 class Block:
@@ -89,3 +91,27 @@ def validate_nonce(previous_block_hash, nonce):
     guess = (f"{previous_block_hash}{nonce}").encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     return guess_hash.startswith("0" * NONCE_VALIDATION_DIFFICULTY)
+
+
+class Blockchain:
+    _chain: Dict[int, Block] = dict()
+
+    def __init__(self):
+        # TODO fetch from db
+        pass
+
+    def __getitem__(self, item):
+        return self._chain[item]
+
+    def __len__(self):
+        return len(self._chain)
+
+    def values(self):
+        return self._chain.values()
+
+    def update(self, values):
+        # TODO add to db
+        return self._chain.update(values)
+
+
+CHAIN = Blockchain()

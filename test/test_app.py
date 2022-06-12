@@ -6,7 +6,7 @@ from app.block import CHAIN
 from app.block import validate_nonce
 from app.config import ALGORITHM, INITIAL_BALANCE
 from app.transaction import Transaction
-from app.node import Node, node
+from app.node import Node, NODE
 from app.wallet import create_new_wallet, generate_pair_key
 
 
@@ -132,25 +132,25 @@ class TestApp(unittest.TestCase):
         sender = create_new_wallet()
         recipient = create_new_wallet()
 
-        self.assertEqual(len(node.transactions), 2)
+        self.assertEqual(len(NODE.transactions), 2)
         self.assertEqual(len(CHAIN), 0)
 
-        node.mine_block()
+        NODE.mine_block()
 
-        self.assertEqual(len(node.transactions), 0)
+        self.assertEqual(len(NODE.transactions), 0)
         self.assertEqual(len(CHAIN), 2)
 
         trx = Transaction(sender.public_key, recipient.public_key, 17.43)\
             .do_sign(sender.private_key)
         # print(json.dumps(trx.to_dict()))
 
-        node.submit_transaction(trx)
+        NODE.submit_transaction(trx)
 
-        self.assertEqual(len(node.transactions), 1)
+        self.assertEqual(len(NODE.transactions), 1)
 
-        node.mine_block()
+        NODE.mine_block()
 
-        self.assertEqual(len(node.transactions), 0)
+        self.assertEqual(len(NODE.transactions), 0)
         self.assertEqual(len(CHAIN), 3)
 
         self.assertIsNotNone(trx)
@@ -169,11 +169,11 @@ class TestApp(unittest.TestCase):
 
         trx2 = Transaction(sender.public_key, recipient.public_key, 17.43)\
             .do_sign(sender.private_key)
-        node.submit_transaction(trx2)
+        NODE.submit_transaction(trx2)
 
         trx3 = Transaction(sender.public_key, recipient.public_key, 77.03)\
             .do_sign(sender.private_key)
-        node.submit_transaction(trx3)
+        NODE.submit_transaction(trx3)
 
         sender_financial_data = sender.financial_data
         recipient_financial_data = recipient.financial_data
@@ -195,7 +195,7 @@ class TestApp(unittest.TestCase):
                   for trx in recipient_financial_data["pending"]), 2),
             round(trx2.amount + trx3.amount, 2))
 
-        node.mine_block()
+        NODE.mine_block()
 
         self.assertEqual(
             round(sender.financial_data["balance"], 2), round(INITIAL_BALANCE - trx.amount - trx2.amount - trx3.amount, 2))
