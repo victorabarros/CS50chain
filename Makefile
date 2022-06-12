@@ -51,6 +51,7 @@ docker-test: welcome
 		COMMAND="coverage run -m unittest discover && \
 			coverage report && \
 			coverage html"
+	@echo "${BOLD_YELLOW}$(shell date)${COLOR_OFF}"
 	@echo "${BOLD_YELLOW}coverage report at htmlcov/index.html${COLOR_OFF}"
 
 ip:

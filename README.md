@@ -15,7 +15,7 @@ https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
 Blockchain POC to CS50 final project
 
 <details open>
-  <summary>contents</summary>
+  <summary>content</summary>
   <ol>
     <li><a href="#description">description</a></li>
     <li><a href="#entities">entities</a></li>
@@ -71,26 +71,6 @@ class Block {
     created_at
 }
 ```
-<!--
-<table>
-  <thead>
-    <tr>
-      <th width="20%">Wallet</th>
-      <th width="20%">Transaction</th>
-      <th width="20%">Block</th>
-      <th width="20%">Node</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><ul><li>public_key<li>private_key<li>created_at</td>
-      <td><ul><li>sender_wallet_public_key<li>recipient_wallet_public_key<li>amount<li>description<li>sign<li>created_at</td>
-      <td><ul><li>id<li>data<li>hash<li>nonce<li>created_at</td>
-      <td><ul><li>transactions<li>url</td>
-    </tr>
-  </tbody>
-</table>
--->
 
 ## api
 
@@ -114,28 +94,28 @@ class Block {
   - submit transaction to node
 
 ## usage
-<!-- IMPROVE add `Dockerfile`, `make docker-build` and use build on `make docker-run` and `make docker-test` -->
 
-To run the node locally run `make docker-run` and then open on browser http://localhost:5000/ to interact with an interface.
-To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open http://localhost:5001/ .
+To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
+To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
 
-To run tests `make docker-test`.
+To run tests `make docker-test`. Following results:
 
-Results at **Jun 6 2022**
-```txt
+```sh
+Jun 12 2022
+Name                 Stmts   Miss  Cover
+----------------------------------------
+app/__init__.py          0      0   100%
+app/block.py            64     10    84%
+app/config.py            7      0   100%
+app/node.py             80     17    79%
+app/transaction.py      55      9    84%
+app/wallet.py           54      1    98%
+test/__init__.py         0      0   100%
+test/test_app.py       117      1    99%
+----------------------------------------
+TOTAL                  377     38    90%
 Coverage report: 90%
-coverage.py v6.4.1, created at 2022-06-12 01:02 +0000
 ```
-
-_Module_|_statements_|_missing_|_excluded_|_coverage_
--|-|-|-|-
-app/block.py|64|10|0|84%
-app/config.py|7|0|0|100%
-app/node.py|80|17|0|79%
-app/transaction.py|55|9|0|84%
-app/wallet.py|54|1|0|98%
-test/test_app.py|117|1|0|99%
-**Total**|**377**|**38**|**0**|**90%**
 
 ## acknowledgments
 <!-- TODO send coments to this articles saying they were importante to this project-->
@@ -151,6 +131,8 @@ test/test_app.py|117|1|0|99%
 ## roadmap
 <!-- IMPROVE -->
 
+- infra
+  - [ ] add `Dockerfile`, `make docker-build` and use build on `make docker-run` and `make docker-test`
 - frontend
   - [ ] add copy to clipboard button on table lines and copy object
   - [ ] clickable link to expand with complete object
