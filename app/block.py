@@ -10,8 +10,9 @@ from app.transaction import Transaction
 class Block:
     _id = None
     _created_at = None
-    _hash = None
+    _data = None
     _nonce = None
+    _hash = None
 
     def __init__(self, data={}):
         blockchain_len = len(CHAIN)
@@ -23,14 +24,14 @@ class Block:
 
     def _internal_to_dict(self):
         return {
-            'id': self.id,
+            "id": self.id,
             "created_at": self.created_at.isoformat(),
-            'data': {**self._data, 'transactions': [trx.to_dict() for trx in self._data.get('transactions', [])]},
-            'nonce': self._nonce,
+            "data": {**self._data, "transactions": [trx.to_dict() for trx in self._data.get("transactions", [])]},
+            "nonce": self._nonce,
         }
 
     def to_dict(self):
-        return {**self._internal_to_dict(), 'hash': self.hash}
+        return {**self._internal_to_dict(), "hash": self.hash}
 
     @staticmethod
     def from_dict(**kwargs):
@@ -84,9 +85,9 @@ def run_proof_of_work(previous_block_hash):
 
 
 def validate_nonce(previous_block_hash, nonce):
-    guess = (f'{previous_block_hash}{nonce}').encode()
+    guess = (f"{previous_block_hash}{nonce}").encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
-    return guess_hash.startswith('0' * NONCE_VALIDATION_DIFFICULTY)
+    return guess_hash.startswith("0" * NONCE_VALIDATION_DIFFICULTY)
 
 
 CHAIN: Dict[int, Block] = dict()
