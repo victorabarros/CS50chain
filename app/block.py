@@ -96,10 +96,6 @@ def validate_nonce(previous_block_hash, nonce):
 class Blockchain:
     _chain: Dict[int, Block] = dict()
 
-    def __init__(self):
-        # TODO fetch from db
-        pass
-
     def __getitem__(self, item):
         return self._chain[item]
 
@@ -109,9 +105,21 @@ class Blockchain:
     def values(self):
         return self._chain.values()
 
-    def update(self, values):
-        # TODO add to db
-        return self._chain.update(values)
+    def update(self, id_block):
+        for block in id_block.values():
+            row = block.to_dict()
+            row["data"] = json.dumps(row["data"])
+            db.execute("INSERT INTO blockchain (id, data, hash, nonce, created_at) VALUES(?, ?, ?, ?, ?)",
+                       row["id"], row["data"], row["hash"], row["nonce"], row["created_at"])
+
+        return self._chain.update(id_block)
+
+    @classmethod
+    def load_chain(cls):
+        rows = db.execute("select * from blockchain")
+        for block in rows:
+            block["data"] = json.loads(block["data"])
+            cls._chain.update({block["id"]: Block.from_dict(**block)})
 
 
 CHAIN = Blockchain()
