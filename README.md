@@ -1,14 +1,3 @@
-<!-- COMPLETE:
-#### Video Demo:  <URL HERE>
-<present your project to the world, as with slides, screenshots, voiceover, and/or live action. Your video should somehow include your project’s title, your name, your city and country, and any other details that you’d like to convey to viewers>
-
-#### Description:
-<several hundred words that describe things in detail>
-<explain what your project is, what each of the files you wrote for the project contains and does, and if you debated certain design choices, explaining why you made them>
-<If it is too short, the system will reject it>
-https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
--->
-
 # This is CS50chain
 
 Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
@@ -96,7 +85,6 @@ class Block {
 ## usage
 
 To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
-If you want to persist data with sqlite, run `make docker-migration`.
 To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
 
 To run tests `make docker-test`. Following results:
@@ -117,6 +105,8 @@ test/test_app.py        99      0   100%
 ----------------------------------------
 TOTAL                  397    112    72%
 ```
+
+If you want to persist data, run `make docker-migration` and it'll create a local sqlite3 database. These commands can be used to run sql queries on the database.
 
 ## acknowledgments
 <!-- TODO send coments to this articles saying they were importante to this project-->
