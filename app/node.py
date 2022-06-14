@@ -1,7 +1,7 @@
 import jwt
 import json
-
 import requests
+from typing import Dict
 
 from app.block import Block, CHAIN
 from app.config import ALGORITHM
@@ -9,12 +9,12 @@ from app.transaction import Transaction
 
 
 class Node:
-    _transactions = dict()
+    _transactions: Dict[str, Transaction] = dict()
     _nodes = set()
 
     @property
     def transactions(self):
-        return self._transactions.values()
+        return list(self._transactions.values())
 
     @property
     def nodes(self):
@@ -46,7 +46,8 @@ class Node:
                 payload = resp.json()
                 node = Node.from_dict(**payload)
 
-                self._transactions.update(node._transactions)
+                self._transactions.update(
+                    {trx.sign: trx for trx in node.transactions})
                 new_nodes.update(node._nodes)
                 # IMPROVE do asynchronously and don't need wait response
                 requests.delete(f"{address}/api/node/transactions")
@@ -74,7 +75,6 @@ class Node:
     def mine_block(self):
         self.sync()
         new_block = Block({"transactions": list(self._transactions.values())})
-
         CHAIN.update({new_block.id: new_block})
 
         self.clear_transactions()

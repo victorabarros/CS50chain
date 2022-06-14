@@ -101,7 +101,7 @@ class Blockchain:
         return len(self._chain)
 
     def values(self):
-        return self._chain.values()
+        return list(self._chain.values())
 
     def update(self, id_block):
         for block in id_block.values():

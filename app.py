@@ -153,7 +153,7 @@ def api_mine_block():
 
 @app.route("/api/chain")
 def api_get_chain():
-    return jsonify([block.to_dict() for block in CHAIN.values()]), 200
+    return jsonify(list(block.to_dict() for block in CHAIN.values())), 200
 
 
 @app.route("/api/chain", methods=["POST"])
