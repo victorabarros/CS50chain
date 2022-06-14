@@ -44,11 +44,13 @@ class Node:
                 if not resp.ok:
                     continue
                 payload = resp.json()
-                node = Node.from_dict(**payload)
 
-                self._transactions.update(
-                    {trx.sign: trx for trx in node.transactions})
-                new_nodes.update(node._nodes)
+                for transaction in payload["transactions"]:
+                    trx = Transaction.from_dict(**transaction)
+                    self._transactions.update({trx.sign: trx})
+
+                new_nodes.update(payload["nodes"])
+
                 # IMPROVE do asynchronously and don't need wait response
                 requests.delete(f"{address}/api/node/transactions")
             except Exception as e:
