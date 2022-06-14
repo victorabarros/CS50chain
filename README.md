@@ -90,20 +90,20 @@ To run another node to mock transactions and sync between them, use `make docker
 To run tests `make docker-test`. Following results:
 
 ```sh
-Jun 12 2022
+Jun 14 2022
 Name                 Stmts   Miss  Cover
 ----------------------------------------
 app/__init__.py          0      0   100%
-app/block.py            85     44    48%
+app/block.py            85     15    82%
 app/config.py            8      0   100%
-app/database.py         15      4    73%
-app/node.py             77     46    40%
+app/database.py         15      1    93%
+app/node.py             79     18    77%
 app/transaction.py      55      9    84%
-app/wallet.py           58      9    84%
+app/wallet.py           58      1    98%
 test/__init__.py         0      0   100%
-test/test_app.py        99      0   100%
+test/test_app.py       107      0   100%
 ----------------------------------------
-TOTAL                  397    112    72%
+TOTAL                  407     44    89%
 ```
 
 If you want to persist data, run `make docker-migration` and it'll create a local sqlite3 database. These commands can be used to run sql queries on the database.
