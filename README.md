@@ -1,6 +1,7 @@
 # This is CS50chain
 
 Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
+Live action: <https://youtu.be/hocXsAqws4o>
 
 <details open>
   <summary>content</summary>
@@ -109,7 +110,6 @@ TOTAL                  407     44    89%
 If you want to persist data, run `make docker-migration` and it'll create a local sqlite3 database. These commands can be used to run sql queries on the database.
 
 ## acknowledgments
-<!-- TODO send coments to this articles saying they were importante to this project-->
 
 - [A Practical Introduction to Blockchain with Python](http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/)
 - [On the Origins and Variations of Blockchain Technologies](https://arxiv.org/abs/1810.06130)
