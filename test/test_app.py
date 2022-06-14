@@ -19,8 +19,10 @@ class TestNode(unittest.TestCase):
 
     def test_submit_transaction(self):
         _node = Node()
+        _node.mine_block()
         sender = generate_pair_key()
         recipient = generate_pair_key()
+
         transaction = Transaction(sender["public_key"],
                                   recipient["public_key"], 16.58, "test")
 
@@ -28,12 +30,10 @@ class TestNode(unittest.TestCase):
             # must fail, because the transaction is not signed
             _node.submit_transaction(transaction)
 
-        transaction_signed = transaction.do_sign(sender["private_key"])
-        self.assertEqual(id(transaction_signed), id(transaction))
+        self.assertEqual(id(transaction.do_sign(
+            sender["private_key"])), id(transaction))
 
         _node.submit_transaction(transaction)
-
-        self.assertEqual(len(_node.transactions), 2)
 
         transactions_filtered_from_node = filter(
             lambda _transaction: transaction.sign == _transaction.sign, _node.transactions)
@@ -59,7 +59,7 @@ class TestNode(unittest.TestCase):
     def test_mine_block(self):
         _node = Node()
         # TODO mock CHAIN.update
-        # _node.mine_block()  # to clear block
+        _node.mine_block()  # to clear node
 
         sender = generate_pair_key()
         recipient = generate_pair_key()
@@ -68,16 +68,16 @@ class TestNode(unittest.TestCase):
             .do_sign(sender["private_key"])
 
         _node.submit_transaction(transaction)
-        # new_block = _node.mine_block()
-        # last_block = CHAIN[len(CHAIN)-1]
-        # self.assertEqual(id(last_block), id(new_block))
+        new_block = _node.mine_block()
+        last_block = CHAIN[len(CHAIN)-1]
+        self.assertEqual(id(last_block), id(new_block))
 
-        # block_transactions = last_block.data.get("transactions", [])
+        block_transactions = last_block.data["transactions"]
 
-        # self.assertEqual(len(block_transactions), 1)
+        self.assertEqual(len(block_transactions), 1)
 
-        # transaction_from_chain = block_transactions[0]
-        # self.assertEqual(id(transaction_from_chain), id(transaction))
+        transaction_from_chain = block_transactions[0]
+        self.assertEqual(id(transaction_from_chain), id(transaction))
 
     def test_clear_transactions(self):
         _node = Node()
@@ -108,7 +108,7 @@ class TestNode(unittest.TestCase):
                         recipient["public_key"], 16.58, "test")
             .do_sign(sender["private_key"]))
 
-        _node.add_node_address("http://bar.foo")
+        _node.add_node_address("mock_url")
 
         _node_dict = _node.to_dict()
 
@@ -136,7 +136,6 @@ class TestWallet(unittest.TestCase):
 
         Wallet.new()
         self.assertEqual(len(NODE.transactions), 2)
-        self.assertEqual(len(CHAIN), 0)
 
     def test_wallet_transaction(self):
         sender = Wallet.new()
@@ -150,29 +149,29 @@ class TestWallet(unittest.TestCase):
         NODE.submit_transaction(trx)
 
         self.assertEqual(len(NODE.transactions), 1)
-        # NODE.mine_block()
-        # self.assertEqual(len(CHAIN), 2)
+        previoes_chain_len = len(CHAIN)
+        NODE.mine_block()
+        self.assertEqual(len(CHAIN), previoes_chain_len + 1)
 
     def test_financial_data(self):
         NODE.clear_transactions()
         sender = Wallet.new()
         recipient = Wallet.new()
 
-        trx = Transaction(sender.public_key, recipient.public_key, 17.43)\
-            .do_sign(sender.private_key)
+        transaction_amounts = [17.43, 17.43, 77.03]
 
-        NODE.submit_transaction(trx)
-        # NODE.mine_block()
+        for amount in transaction_amounts:
+            NODE.submit_transaction(
+                Transaction(sender.public_key, recipient.public_key, amount)
+                .do_sign(sender.private_key)
+            )
 
-        trx2 = Transaction(sender.public_key, recipient.public_key, 17.43)\
-            .do_sign(sender.private_key)
-        NODE.submit_transaction(trx2)
-
-        trx3 = Transaction(sender.public_key, recipient.public_key, 77.03)\
-            .do_sign(sender.private_key)
-        NODE.submit_transaction(trx3)
+        NODE.mine_block()
 
         sender_financial_data = sender.financial_data
         recipient_financial_data = recipient.financial_data
 
-        # import pdb; pdb.set_trace()
+        self.assertEqual(round(sender_financial_data["balance"], 2),
+                         INITIAL_BALANCE - sum(transaction_amounts))
+        self.assertEqual(round(recipient_financial_data["balance"], 2),
+                         INITIAL_BALANCE + sum(transaction_amounts))

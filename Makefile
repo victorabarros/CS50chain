@@ -56,8 +56,8 @@ docker-test: welcome
 	@make docker-command \
 		APP_NAME=${APP_NAME}-test \
 		PORT=4999 \
-		COMMAND="coverage run -m unittest discover && \
-			coverage report && \
+		COMMAND="\
+			coverage run -m unittest discover && coverage report && \
 			coverage html"
 	@echo "${BOLD_YELLOW}$(shell date)${COLOR_OFF}"
 	@echo "${BOLD_YELLOW}coverage report at htmlcov/index.html${COLOR_OFF}"
