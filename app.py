@@ -31,18 +31,18 @@ def handle_index():
 @app.route("/register", methods=["GET", "POST"])
 def handle_register():
     if request.method == "POST":
-        create_wallet_resp = api_create_wallet()
-        wallet = create_wallet_resp[0].get_json()
+        wallet = Wallet.new()
 
-        session["user_id"] = wallet
+        print(wallet.to_dict())
+        session["user_id"] = wallet.to_dict()
 
         flash('Your wallet was successfully created and signed in!')
         flash(
             f'Will be deposit to your wallet an amount of ${INITIAL_BALANCE} on next block.')
         flash('These are your keys. The public one is your address.')
         flash('And the private one is to sign your transactions. Do not share with others.')
-        flash('{public_key}'.format(**wallet).replace("\n", "\\n"))
-        flash('{private_key}'.format(**wallet).replace("\n", "\\n"))
+        flash(wallet.public_key.replace("\n", "\\n"))
+        flash(wallet.private_key.replace("\n", "\\n"))
         return redirect("/")
     else:
         return render_template("register.html")
@@ -53,7 +53,7 @@ def handle_signin():
     if request.method == "POST":
         wallet = Wallet(request.form["public_key"],
                         request.form["private_key"])
-
+        print(wallet.to_dict())
         session["user_id"] = wallet.to_dict()
 
         flash('Your wallet was successfully signed in!')
@@ -94,7 +94,9 @@ def handle_mine_node():
 def handle_wallet():
     wallet = Wallet(session["user_id"]["public_key"])
 
-    return render_template("wallet.html", public_key=wallet.public_key, **wallet.financial_data)
+    return render_template("wallet.html",
+                           public_key=wallet.public_key.replace("\n", "\\n"),
+                           **wallet.financial_data)
 
 
 @app.route("/transaction", methods=["GET", "POST"])
@@ -110,11 +112,16 @@ def handle_transaction():
         amount = int(request.form["amount"])
         description = request.form["description"] or None
 
-        trx = Transaction(
-            session["user_id"]["public_key"], recipient_public_key, amount, description)
+        trx = Transaction(session["user_id"]["public_key"],
+                          recipient_public_key,
+                          amount,
+                          description)
+
         NODE.submit_transaction(trx.do_sign(
             session["user_id"]["private_key"]))
+
         transaction = trx.to_dict()
+
         flash('Transaction was successfully submitted!')
         flash('See on Node tab')
 

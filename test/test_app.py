@@ -1,6 +1,5 @@
 import jwt
 import unittest
-import json
 
 from app.block import CHAIN
 from app.block import validate_nonce
