@@ -1,5 +1,5 @@
 # CS50chain
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://youtu.be/hocXsAqws4o
 #### Description:
 
 The CS50chain is my CS50 final project.
