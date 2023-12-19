@@ -11,7 +11,7 @@ Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
     <li><a href="#entities">entities</a></li>
     <li><a href="#api">api</a></li>
     <li><a href="#usage">usage</a></li>
-    <li><a href="#automated tests">automated tests</a></li>
+    <li><a href="#automated-tests">automated tests</a></li>
     <li><a href="#acknowledgments">acknowledgments</a></li>
     <li><a href="#roadmap">roadmap</a></li>
     <li><a href="#license">license</a></li>
