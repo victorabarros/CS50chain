@@ -1,7 +1,8 @@
 # This is CS50chain
 
 Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
-Live action: <https://youtu.be/hocXsAqws4o>
+
+[![LiveDemo](https://i.ytimg.com/an_webp/hocXsAqws4o/mqdefault_6s.webp?du=3000&sqp=CIz6hqwG&rs=AOn4CLAN-yXiGn9Yc-ZDQw17nNgCP9HKdQ)](https://youtu.be/hocXsAqws4o)
 
 <details open>
   <summary>content</summary>
@@ -10,11 +11,14 @@ Live action: <https://youtu.be/hocXsAqws4o>
     <li><a href="#entities">entities</a></li>
     <li><a href="#api">api</a></li>
     <li><a href="#usage">usage</a></li>
+    <li><a href="#automated tests">automated tests</a></li>
     <li><a href="#acknowledgments">acknowledgments</a></li>
     <li><a href="#roadmap">roadmap</a></li>
     <li><a href="#license">license</a></li>
   </ol>
 </details>
+
+Here the course [Certificate](https://certificates.cs50.io/3fc935e2-a295-47c9-9dd4-3658ddfb84e7.pdf?size=A4)
 
 ## description
 
@@ -88,7 +92,9 @@ class Block {
 To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
 To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
 
-To run tests `make docker-test`. Following results:
+## automated tests
+
+To run tests `make docker-test`
 
 ```sh
 Jun 14 2022
@@ -120,7 +126,6 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 ## roadmap
-<!-- IMPROVE -->
 
 - infra
   - [ ] add `Dockerfile`, `make docker-build` and use build on `make docker-run` and `make docker-test`
@@ -137,3 +142,10 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
 ## license
 
 [MIT](https://github.com/victorabarros/CS50chain/blob/main/LICENSE)
+
+<p align="center">
+  <br/>
+  Made in Brazil
+  <br/>
+  <img src="https://user-images.githubusercontent.com/42843223/222024964-9494cd55-849c-40a3-8121-8fa00d575475.png" height="30px"/>
+</p>
