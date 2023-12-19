@@ -20,7 +20,7 @@ Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
 
 Here the course [Certificate](https://certificates.cs50.io/3fc935e2-a295-47c9-9dd4-3658ddfb84e7.pdf?size=A4)
 
-## description
+## Description
 
 Blockchain is a decentralized way to save data. In our case, as bitcoin works, the data is financial transactions.
 First is necessary for the user to create their wallet that's is a pair of RSA256 keys. These will work as address to receive deposits and authenticate withdraws.
@@ -28,7 +28,7 @@ The API in itself is an abstraction to a Node, it is a piece of the network that
 Mine means doing a proof of work calculation and being responsible for sending the new block to the blockchain.
 More details in [CS50 Readme](https://github.com/victorabarros/CS50chain/blob/main/README.cs50.md#description).
 
-## entities
+## Entities
 
 ```mermaid
 classDiagram
@@ -67,7 +67,7 @@ class Block {
 }
 ```
 
-## api
+## API
 
 - GET /api/node
   - get current node transactions and other node addresses
@@ -88,13 +88,13 @@ class Block {
 - POST /api/transaction
   - submit transaction to node
 
-## usage
+## Usage
 
 To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
 To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
 Also can import the [Postman Collection](https://github.com/victorabarros/CS50chain/blob/main/cs50chain.postman_collection.json) to request directly to the API.
 
-## automated tests
+## Automated tests
 
 To run tests `make docker-test`
 
@@ -117,7 +117,7 @@ TOTAL                  407     44    89%
 
 If you want to persist data, run `make docker-migration` and it'll create a local sqlite3 database. These commands can be used to run sql queries on the database.
 
-## acknowledgments
+## Acknowledgments
 
 - [A Practical Introduction to Blockchain with Python](http://adilmoujahid.com/posts/2018/03/intro-blockchain-bitcoin-python/)
 - [On the Origins and Variations of Blockchain Technologies](https://arxiv.org/abs/1810.06130)
@@ -127,7 +127,7 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
 - [Learn Blockchains by Building One](https://medium.com/@vanflymen/learn-blockchains-by-building-one-117428612f46)
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
-## roadmap
+## Roadmap
 
 - infra
   - [ ] add `Dockerfile`, `make docker-build` and use build on `make docker-run` and `make docker-test`
@@ -141,7 +141,7 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
   - [ ] deploy app
   - [ ] save blockchain on heroku postgresql
 
-## license
+## License
 
 [MIT](https://github.com/victorabarros/CS50chain/blob/main/LICENSE)
 
