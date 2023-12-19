@@ -26,6 +26,7 @@ Blockchain is a decentralized way to save data. In our case, as bitcoin works, t
 First is necessary for the user to create their wallet that's is a pair of RSA256 keys. These will work as address to receive deposits and authenticate withdraws.
 The API in itself is an abstraction to a Node, it is a piece of the network that decentralize the blockchain, it is responsible for submitting transactions to block and mine them.
 Mine means doing a proof of work calculation and being responsible for sending the new block to the blockchain.
+More details in [CS50 Readme](https://github.com/victorabarros/CS50chain/blob/main/README.cs50.md#description).
 
 ## entities
 
@@ -91,6 +92,7 @@ class Block {
 
 To run the node locally run `make docker-run` and then open on browser <http://localhost:5000/> to interact with an interface.
 To run another node to mock transactions and sync between them, use `make docker-run APP_NAME=cs50chain-clone PORT=5001` and open <http://localhost:5001/> .
+Also can import the [Postman Collection](https://github.com/victorabarros/CS50chain/blob/main/cs50chain.postman_collection.json) to request directly to the API.
 
 ## automated tests
 
