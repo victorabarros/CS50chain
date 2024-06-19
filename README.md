@@ -2,7 +2,7 @@
 
 Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
 
-[![LiveDemo](https://i.ytimg.com/an_webp/hocXsAqws4o/mqdefault_6s.webp?du=3000&sqp=CIz6hqwG&rs=AOn4CLAN-yXiGn9Yc-ZDQw17nNgCP9HKdQ)](https://youtu.be/hocXsAqws4o)
+[Demo](https://youtu.be/hocXsAqws4o)
 
 <details open>
   <summary>content</summary>
