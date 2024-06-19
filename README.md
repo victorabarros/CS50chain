@@ -149,5 +149,5 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
   <br/>
   Made in Brazil
   <br/>
-  <img src="https://user-images.githubusercontent.com/42843223/222024964-9494cd55-849c-40a3-8121-8fa00d575475.png" height="30px"/>
+  <img src="assets/brazil_flag.png" height="30px"/>
 </p>
