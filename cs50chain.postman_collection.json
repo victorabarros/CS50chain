@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "fe45448d-f8c8-4dcc-9493-5dd2dcead310",
 		"name": "cs50chain",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5097333"
 	},
 	"item": [
 		{
@@ -167,6 +168,29 @@
 			"name": "api/chain",
 			"request": {
 				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.17.0.4:5000/api/chain",
+					"protocol": "http",
+					"host": [
+						"172",
+						"17",
+						"0",
+						"4"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"chain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/chain",
+			"request": {
+				"method": "POST",
 				"header": [],
 				"url": {
 					"raw": "http://172.17.0.4:5000/api/chain",
