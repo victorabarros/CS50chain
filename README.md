@@ -1,6 +1,8 @@
 # This is CS50chain
 
 Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
+Course [Certificate](./assets/CS50x.pdf).
+<!-- certificate from https://certificates.cs50.io/3fc935e2-a295-47c9-9dd4-3658ddfb84e7.pdf?size=A4 -->
 
 [Demo](https://youtu.be/hocXsAqws4o)
 
@@ -18,7 +20,6 @@ Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
   </ol>
 </details>
 
-Here the course [Certificate](https://certificates.cs50.io/3fc935e2-a295-47c9-9dd4-3658ddfb84e7.pdf?size=A4)
 
 ## Description
 

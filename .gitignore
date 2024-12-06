@@ -130,3 +130,6 @@ dmypy.json
 .vscode/
 *.db
 me50/
+
+.DS_Store
+*/**/.DS_Store
