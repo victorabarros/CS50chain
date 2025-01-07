@@ -142,6 +142,10 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
   - [ ] deploy app
   - [ ] save blockchain on heroku postgresql
 
+## Improvements
+
+- Read https://github.com/openblockchains/awesome-blockchains?tab=readme-ov-file#python
+
 ## License
 
 [MIT](https://github.com/victorabarros/CS50chain/blob/main/LICENSE)
