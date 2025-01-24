@@ -1,4 +1,4 @@
-# This is CS50chain
+# This is CS50chain ⛓️
 
 Blockchain POC to [CS50 final project](https://cs50.harvard.edu/x/2022/project/)
 Course [Certificate](./assets/CS50x.pdf).
@@ -156,3 +156,9 @@ If you want to persist data, run `make docker-migration` and it'll create a loca
   <br/>
   <img src="assets/brazil_flag.png" height="30px"/>
 </p>
+
+<!--
+TODO
+
+- read https://github.com/yjjnls/awesome-blockchain
+-->
